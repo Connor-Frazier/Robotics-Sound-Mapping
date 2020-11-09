@@ -7,14 +7,18 @@ This guide is intended to demonstrate how to send data from the mBot ranger to a
     sudo apt install libserial-dev
      ```
      * NOTE: I had to manually set the path for libserial in my CMakeLists.txt
-2. Upload basic_readings.ino to your mBot\
-    a. I have my ultraSensor on port9 and lineFinder on port10, you may have to change those lines in basic_readings if you have them plugged in to different ports.\
-    b. This part just loads all the sensor data, which was explained in other tutorials. The only distinction is that this code reads a line from the serial and acts on it (i.e. only reading data when "Go" is sent from the control program)
+     ![instructional](images/libserial.png)
+2. Upload basic_readings/basic_readings.ino to your mBot\
+    a. I have my ultraSensor on port9 and lineFinder on port10, you may have to change those lines in basic_readings if you have them plugged in to different ports.
+    ![instructional](images/sensor_ports.png)
+    b. This part just loads all the sensor data, which was explained in other tutorials. The only distinction is that this code reads a line from the serial and acts on it (i.e. only reading data when "Go" is sent from the control program)\
+    c. This logic can be repurposed to work with the Aruiga firmware pretty easily, but I think it's easier to parse & understand when the firmware is only reading and writing sensor data.\
 3. Inspect brain.cc\
     a. I believe the Makefile and CMakeLists.txt should work for everyone - the only exception being that lines 29 and 30 are my path to libserial, which wasn't being found without the hardcoded direct path.\
     b. Line 15 specifies what port your USB is on, you can also find this in the Arduino-->Tools-->Port.\
     c. read() reads input from the serial, which is passed from basic_readings.ino with a newline at the end of each message\
-    d. On line 44, port.write() requires that you specify how many bytes you're sending (2 in this case).\
+    d. On line 44, port.write() requires that you specify how many bytes you're sending (2 in this case).
+    ![instructional](images/write.png)
 4. Compile and run\
     a. If your code is uploaded on the mBot and you are plugged into it via USB, you can make and run brain and the output should be as follows every 200 milliseconds:
     ![instructional](images/output.png)

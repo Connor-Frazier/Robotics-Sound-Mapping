@@ -29,23 +29,23 @@ void loop()
       Serial.print("Line state ");
       Serial.println(lineState);
     }
-
+  
     // Distance to closest object or 400cm if nothing in range
     Serial.print("Ultrasonic sensor distance: ");
     Serial.print(ultraSensor.distanceCm());
     Serial.println(" cm");
-
+  
     // Sound reading catches ambient sound
     Serial.print("Sound reading: ");
     Serial.println(mySound.strength());
-
+  
     // Light reading from the top of the arduino
     Serial.print("Light reading: ");
     light = lightSensor.read();
     Serial.println(light);
-
-
-    Serial.println("=============================");
+  
+  
+    Serial.println("=============================");   
   }
-
+ 
 }
