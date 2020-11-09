@@ -9,8 +9,8 @@ This guide is intended to demonstrate how to send data from the mBot ranger to a
      * NOTE: I had to manually set the path for libserial in my CMakeLists.txt
      ![instructional](images/libserial.png)
 2. Upload basic_readings/basic_readings.ino to your mBot\
-    a. I have my ultraSensor on port9 and lineFinder on port10, you may have to change those lines in basic_readings if you have them plugged in to different ports.
-    ![instructional](images/ports.png)
+    a. I have my ultraSensor on port9 and lineFinder on port10, you may have to change those lines in basic_readings if you have them plugged in to different ports.\
+    ![instructional](images/ports.png)\
     b. This part just loads all the sensor data, which was explained in other tutorials. The only distinction is that this code reads a line from the serial and acts on it (i.e. only reading data when "Go" is sent from the control program)\
     c. This logic can be repurposed to work with the Aruiga firmware pretty easily, but I think it's easier to parse & understand when the firmware is only reading and writing sensor data.\
 3. Inspect brain.cc\
