@@ -16,7 +16,7 @@ setup()
 	port.SetBaudRate(LibSerial::BaudRate::BAUD_9600);
 	port.SetCharacterSize(LibSerial::CharacterSize::CHAR_SIZE_8);
 	port.SetParity(LibSerial::Parity::PARITY_NONE);
-	//port.SetStopBits(LibSerial::StopBits::ONE);
+	port.SetStopBits(LibSerial::StopBits::STOP_BITS_1);
 }
 
 void
@@ -24,7 +24,7 @@ read()
 {
 	char temp[100];
 	int ii = 0;
-
+	
 	for (; ii < 96; ++ii) {
 		port.read(temp + ii, 1);
 		if (temp[ii] == '\n') {

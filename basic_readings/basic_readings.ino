@@ -6,12 +6,14 @@ MeLightSensor lightSensor(2);
 MeSoundSensor mySound(5);
 MeUltrasonicSensor ultraSensor(9);
 MeLineFollower lineFinder(10);
+MeEncoderMotor motor();
 
 int light = 0;
 
 void setup()
 {
   Serial.begin(9600);
+  motor.begin();
 }
 
 void loop()
