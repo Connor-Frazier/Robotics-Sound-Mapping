@@ -24,7 +24,7 @@ read()
 {
 	char temp[100];
 	int ii = 0;
-	
+
 	for (; ii < 96; ++ii) {
 		port.read(temp + ii, 1);
 		if (temp[ii] == '\n') {
@@ -43,6 +43,5 @@ main(int argc, char* argv[])
 	while (true) {
 		port.write("Go", 2);
 		read();
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	}
 }

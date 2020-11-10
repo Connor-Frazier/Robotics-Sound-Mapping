@@ -6,22 +6,38 @@ MeLightSensor lightSensor(2);
 MeSoundSensor mySound(5);
 MeUltrasonicSensor ultraSensor(9);
 MeLineFollower lineFinder(10);
-MeEncoderMotor motor();
 
 int light = 0;
+
+char command[64];
+char cmd_idx = 0;
+
+void
+poll_serial()
+{
+    while (Serial.available()) {
+        char cc = Serial.read();
+        if (cc == '\n') {
+            command[cmd_idx] = 0;
+            return;
+        }
+        else {
+            command[cmd_idx++] = cc;
+        }
+    }
+}
+
 
 void setup()
 {
   Serial.begin(9600);
-  motor.begin();
 }
 
 void loop()
 {
+  poll_serial();
 
-  String temp = Serial.readString();
-
-  if (temp.equals("Go")) {
+  if (strcmp("Go", command)) {
     // Line state is 3 when both sensors are over a line
     // 2 if sensor 2 is over one, 1 if sesnor 1 is over one
     int lineState = lineFinder.readSensors();
@@ -47,7 +63,12 @@ void loop()
     Serial.println(light);
   
   
-    Serial.println("=============================");   
+    Serial.println("=============================");  
+
+             
+    command[0] = 0;
+    cmd_idx = 0;
+    delay(500);
   }
  
 }
