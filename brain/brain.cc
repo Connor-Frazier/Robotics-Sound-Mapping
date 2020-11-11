@@ -22,6 +22,7 @@ callback(Robot* robot)
     }
 
     robot->set_vel(2.0, 2.0);
+    cout << "Noise is: " << robot->noise << endl;
     return;
 }
 

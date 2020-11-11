@@ -16,7 +16,7 @@ using common::Time;
 
 const int NUM_SOURCES = 2;
 int SOURCES[][NUM_SOURCES] = {{3, 3}, {-3, -3}};
-int SOURCES_DECIBALS[NUM_SOURCES] = {60, 60};
+int SOURCES_DECIBELS[NUM_SOURCES] = {60, 60};
 
 class MicrophoneControlPlugin : public ModelPlugin
 {
@@ -72,6 +72,14 @@ public:
     	return dist;
     }
 
+    double
+    clamp(double xmin, double xx, double xmax)
+    {
+        if (xx < xmin) return xmin;
+        return xx;
+    }
+
+
     int
     make_mic_msg(int x, int y)
     {
@@ -79,21 +87,21 @@ public:
         for (int i = 0; i < NUM_SOURCES; i++) {
             int source_x = SOURCES[i][0];
             int source_y = SOURCES[i][1];
-            int source_decibals = SOURCES_DECIBALS[i];
+            int source_decibels = SOURCES_DECIBELS[i];
 
             double dist = distanceCalculate(x, y, source_x, source_y);
 
-            // decibal intensity degrade by the inverse square law
+            // decibel intensity degrade by the inverse square law
             double distance = pow(dist, 2);
-            double denom = std::max(distance, 1.0);
+            double denom = clamp(1.0, dist, 1000);
             double intensity = 1 / denom;
-            double decibals_float = source_decibals * intensity;
-            std::cout << "decibals: " << decibals_float << std::endl;
-            int decibals = round(decibals_float);
+            double decibels_float = source_decibels * intensity;
 
-            if (decibals > loudest)
+            int decibels = round(decibels_float);
+
+            if (decibels > loudest)
             {
-                loudest = decibals;
+                loudest = decibels;
             }
         }
 

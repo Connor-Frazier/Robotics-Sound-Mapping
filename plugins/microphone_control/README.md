@@ -27,6 +27,7 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
     </joint>
     ```
     **NOTE**: you'll want to edit the pose of your microphone_sensor to sit atop your vehicle model. The example pose is for the tankbot in world.sh.
+    **OTHER BUT EQUALLY IMPORTANT NOTE**: The naming convention for your models matters and will influence what the topic names you're using are. Mimic the examples as close as possible.
 
 4. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
     a. You need to create a .so for your plugin. The important lines to have for the microphone plugin of [this makefile](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/Makefile) are lines 4, 11-13, and 18.\
@@ -46,8 +47,37 @@ int SOURCES_DECIBELS[NUM_SOURCES] = {60, 60};
 4. SOURCES_DECIBELS is an array of the decibels of each sound source
 5. Edit all 3 of the global variables to add source sources to your world
 
-6. TODO: subscribing in robot.cc
 
+## Subscribing from robot.cc (or something like it)
+0. Check out [robot.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/robot.cc) and [robot.hh](https://github.com/nbock/cs5335-nm/blob/plugins/brain/robot.hh) for examples on how this is done.
+    a. [brain.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/brain.cc) also has a reference to robot->noise
+1. Add an integer `noise` value to robot.hh or your equivalent
+2. Add a SubscriberPtr as a private variable to robot.hh or equivalent
+3. Use your SubscriberPtr to subscribe to the mic topic `~/tankbot0/mic`:
+```cpp
+mic_sub = node->Subscribe(
+    string("~/tankbot0/mic"),
+    &Robot::on_sound,
+    this,
+    false
+);
+```
+4. Now, Robot->on_sound will be called on each message that is published to the mic topic
+5. Store the noise data from your on_sound function
+```cpp
+void
+Robot::on_sound(ConstIntPtr &msg)
+{
+
+    this->noise = msg->data();
+    this->on_update(this);
+}
+```
+6. Now you can reference the noise from `Robot->noise`
+
+## Running it
+1. If you pull the entire cs5335-nm branch called "plugin" you can make and `./world.sh` will start the world
+2. Then executing `./brain` will move the bot in a boring way, but you'll see noise change as you get closer to (3, 3) or (-3, 3)
 
 ## Implementation details
 1. The microphone plugin subscribes to world_stats and calls its OnStats each time a message is published to world_stats.
@@ -63,12 +93,13 @@ int decibels = round(decibels_float);
 3. Distance is measured in meters.
 4. The command below is useful for seeing what data is being published to the microphone topic. Substitute "tankbot" for whatever model your sound sensor is embedded within:
 ```terminal
-gz topic -e /gazebo/default/tankbot/mic
+gz topic -e /gazebo/default/tankbot0/mic
 ```
 5. If you aren't sure what topic your mic is on, use the following to list all topics:
 ```terminal
-gz topic -e /gazebo/default/tankbot/mic
+gz topic -l
 ```
+6. The "dominant" sound wins, so if you have two sounds, the louder one _at that point_ is what contributes to noise.
 
 ## Fitting this to your world
 In the example world, each (x, y) grid space is treated as 1 meter by 1 meter by this version of the microphone plugin. This means a sound source at (3, 3) is barely audible at 60 decibels from the origin (0, 0). That makes sense if you consider that 60 decibels is a normal conversation volume and that conversation is 4.24 meters away (about 14 feet). In real life, you'd expect to hear the noises, but not that loudly.
