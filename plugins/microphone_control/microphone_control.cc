@@ -1,8 +1,10 @@
 
 #include <iostream>
+#include <algorithm>
 
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/physics.hh>
+#include <math.h>
 
 using std::string;
 using std::vector;
@@ -12,9 +14,9 @@ using physics::JointControllerPtr;
 using ignition::math::Pose3d;
 using common::Time;
 
-int SOURCE_X = 10;
-int SOURCE_Y = 10;
-int SOURCE_DECIBALS = 100;
+const int NUM_SOURCES = 2;
+int SOURCES[][NUM_SOURCES] = {{3, 3}, {-3, -3}};
+int SOURCES_DECIBALS[NUM_SOURCES] = {60, 60};
 
 class MicrophoneControlPlugin : public ModelPlugin
 {
@@ -42,11 +44,6 @@ public:
         std::cerr << "world: " << world_name << std::endl;
         std::cerr << "model: " << model_name << std::endl;
 
-        //this->node->Init(world_name);
-
-        // TODO: Figure out a position to go towards
-
-
         this->node = transport::NodePtr(new transport::Node());
         this->node->Init(world_name);
 
@@ -65,11 +62,11 @@ public:
 
     double distanceCalculate(double x1, double y1, double x2, double y2)
     {
-    	double x = x1 - x2; //calculating number to square in next step
-    	double y = y1 - y2;
+    	double x = fabs(x1 - x2);
+    	double y = fabs(y1 - y2);
     	double dist;
 
-    	dist = pow(x, 2) + pow(y, 2);       //calculating Euclidean distance
+    	dist = pow(x, 2) + pow(y, 2);  //calculating Euclidean distance
     	dist = sqrt(dist);
 
     	return dist;
@@ -78,21 +75,39 @@ public:
     int
     make_mic_msg(int x, int y)
     {
-        double dist = distanceCalculate(x, y, SOURCE_X, SOURCE_Y);
-        int dist_int = round(dist);
-        int decibals = SOURCE_DECIBALS - dist_int;
+        int loudest = 0;
+        for (int i = 0; i < NUM_SOURCES; i++) {
+            int source_x = SOURCES[i][0];
+            int source_y = SOURCES[i][1];
+            int source_decibals = SOURCES_DECIBALS[i];
 
-        return decibals;
+            double dist = distanceCalculate(x, y, source_x, source_y);
+
+            // decibal intensity degrade by the inverse square law
+            double distance = pow(dist, 2);
+            double denom = std::max(distance, 1.0);
+            double intensity = 1 / denom;
+            double decibals_float = source_decibals * intensity;
+            std::cout << "decibals: " << decibals_float << std::endl;
+            int decibals = round(decibals_float);
+
+            if (decibals > loudest)
+            {
+                loudest = decibals;
+            }
+        }
+
+        return loudest;
     }
 
     void
     OnStats(ConstAnyPtr &_msg)
     {
-        //std::cout << "OnStats for mic called" << std::endl;
         auto pose = this->model->WorldPose();
-        int distance = make_mic_msg(pose.X(), pose.Y());
+        auto pos = pose.Pos();
+        double intensity = make_mic_msg(pos.X(), pos.Y());
         gazebo::msgs::Int msg;
-        msg.set_data(distance);
+        msg.set_data(intensity);
         this->mic_pub->Publish(msg);
     }
 };
