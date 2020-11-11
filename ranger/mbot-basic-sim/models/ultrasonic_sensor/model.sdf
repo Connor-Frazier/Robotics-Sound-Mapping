@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="ultrasonic_sensor">
+    <pose>0 0 0.02 0 0 0</pose>
+    <link name="link">
+      
+      <inertial>
+        <mass>0.1</mass>
+      </inertial>
+      
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.01 0.07 0.04</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Red</name>
+          </script>
+        </material>
+      </visual>
+      
+      <collision name="collision">
+        <pose>0 0 -0.0145 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.07 0.04</size>
+          </box>
+        </geometry>
+      </collision>
+      
+      <sensor name="sonar" type="sonar">
+        <pose>0.01 0 0 0 1.5 3.14</pose>
+        <sonar>
+          <min>0</min>
+          <max>3</max>
+          <radius>0.3</radius>
+        </sonar>
+        <plugin name="sonar" filename="libSonarPlugin.so" />
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+      
+    </link>
+        
+    <link name="left_sonar">
+      <pose>0.01 0.02 0.004 0 1.57 0</pose>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+      </collision>
+          
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name="left_sonar_joint" type="fixed">
+        <child>left_sonar</child>
+        <parent>link</parent>
+      </joint>
+    
+    <link name="right_sonar">
+      <pose>0.01 -0.02 0.004 0 1.57 0</pose>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+      </collision>
+        
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name="right_sonar_joint" type="fixed">
+        <child>right_sonar</child>
+        <parent>link</parent>
+      </joint>
+      
+    
+  </model>
+</sdf>

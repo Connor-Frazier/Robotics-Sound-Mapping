@@ -1,0 +1,62 @@
+    
+    <link name="left_sonar">
+      <pose>0.01 0.02 0.004 0 1.57 0</pose>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+      </collision>
+        
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name="left_sonar_joint" type="fixed">
+        <child>left_sonar</child>
+        <parent>link</parent>
+      </joint>
+    
+    <link name="right_sonar">
+      <pose>0.01 -0.02 0.004 0 1.57 0</pose>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+      </collision>
+        
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>.01</radius>
+            <length>.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name="right_sonar_joint" type="fixed">
+        <child>right_sonar</child>
+        <parent>link</parent>
+      </joint>

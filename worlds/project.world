@@ -1,0 +1,447 @@
+<?xml version="1.0" ?>
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+
+    <model name="tankbot">
+      <link name="chassis">
+        <pose>0 0 0.135  0 0 0</pose>
+        <inertial>
+          <pose>0.04650000000000001 0 0  0 0 0</pose>
+          <mass>2.0</mass>
+          <inertia>
+            <ixx>0.012592666666666665</ixx>
+            <iyy>0.04085416666666667</iyy>
+            <izz>0.043813500000000005</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.465 0.216 0.17</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.465 0.216 0.17</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+
+
+      <link name="wheel_fl">
+        <pose>
+          0.1395 0.14200000000000002 0.05
+          -1.5707963267948966 -0.08726646259971647 0
+        </pose>
+        <inertial>
+          <mass>0.25</mass>
+          <inertia>
+            <ixx>0.00018958333333333338</ixx>
+            <iyy>0.00018958333333333338</iyy>
+            <izz>0.00031250000000000006</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="wheel_fl">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+
+      <joint name="wheel_fl_drive" type="revolute">
+        <parent>chassis</parent>
+        <child>wheel_fl</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+        </axis>
+      </joint>
+
+      <link name="chain_l_up">
+        <pose>
+          0.0098 0.14 0.1
+          0.0 0.0 0.0
+        </pose>
+        <gravity>0</gravity>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.28 0.04 0.01</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.28 0.04 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+
+      <link name="chain_r_up">
+        <pose>
+          0.0098 -0.14 0.1
+          0.0 0.0 0.0
+        </pose>
+        <gravity>0</gravity>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.28 0.04 0.01</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.28 0.04 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+
+      <joint name="chain_up_joint" type="revolute">
+        <parent>chassis</parent>
+        <child>chain_r_up</child>
+      </joint>
+
+      <joint name="chain_up_2_joint" type="revolute">
+        <parent>chassis</parent>
+        <child>chain_l_up</child>
+      </joint>
+
+
+
+      <link name="wheel_fr">
+        <pose>
+          0.1395 -0.14200000000000002 0.05
+          -1.5707963267948966 -0.08726646259971647 0
+        </pose>
+        <inertial>
+          <mass>0.25</mass>
+          <inertia>
+            <ixx>0.00018958333333333338</ixx>
+            <iyy>0.00018958333333333338</iyy>
+            <izz>0.00031250000000000006</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+
+      <joint name="wheel_fr_drive" type="revolute">
+        <parent>chassis</parent>
+        <child>wheel_fr</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+        </axis>
+      </joint>
+
+
+      <link name="wheel_rl">
+        <pose>
+         -0.1395 0.14200000000000002 0.05
+         -1.5707963267948966 0 0
+        </pose>
+        <inertial>
+          <mass>0.25</mass>
+          <inertia>
+            <ixx>0.00018958333333333338</ixx>
+            <iyy>0.00018958333333333338</iyy>
+            <izz>0.00031250000000000006</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <joint name="wheel_rl_drive" type="revolute">
+        <parent>chassis</parent>
+        <child>wheel_rl</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+        </axis>
+      </joint>
+
+      <link name="wheel_rr">
+        <pose>
+         -0.1395 -0.14200000000000002 0.05
+         -1.5707963267948966 0 0
+        </pose>
+        <inertial>
+          <mass>0.25</mass>
+          <inertia>
+            <ixx>0.00018958333333333338</ixx>
+            <iyy>0.00018958333333333338</iyy>
+            <izz>0.00031250000000000006</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <joint name="wheel_rr_drive" type="revolute">
+        <parent>chassis</parent>
+        <child>wheel_rr</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+        </axis>
+      </joint>
+
+       <include>
+        <uri>model://ultrasonic_sensor</uri>
+        <pose>
+          0.18 0.0 0.24
+          0.0 0.0 0.0
+        </pose>
+      </include>
+
+      <joint name="sonar_joint" type="fixed">
+        <child>ultrasonic_sensor::link</child>
+        <parent>chassis</parent>
+      </joint>
+
+      <include>
+        <uri>model://microphone_sensor</uri>
+        <pose>
+          0.0 0.0 0.23
+          0.0 0.0 0.0
+        </pose>
+      </include>
+
+      <joint name="microphone_joint" type="fixed">
+        <child>microphone_sensor::link</child>
+        <parent>chassis</parent>
+      </joint>
+
+    <plugin name="tankbot_control" filename='libtank_control_plugin.so'/>
+    </model>
+
+
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <state world_name='default'>
+      <sim_time>23 938000000</sim_time>
+      <real_time>24 70498301</real_time>
+      <wall_time>1605064371 683528262</wall_time>
+      <iterations>23938</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-42.6356 -6.18953 31.4767 -0 0.539643 -0.007806</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+  </world>
+</sdf>
