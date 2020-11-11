@@ -2,7 +2,7 @@
 ## Description
 The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built in microphone that measures sound from the environment. This plugin mimics that microphone and is intended to be included in a model for the mBot ranger.
 ## Set up
-0. The easiest way (and therefore the recommended set up process) is to clone this repo, make, and execute world.sh. If you do that and see "hello from MicControlPlugin" on Gazebo start up, skip to Setting up sound sources.
+0. The easiest way (and therefore the recommended set up process) is to clone [this repo](https://github.com/nbock/cs5335-nm/tree/plugins), make, and execute world.sh. If you do that and see "hello from MicControlPlugin" on Gazebo start up, skip to Setting up sound sources.
 1. Make a world. This plugin has an [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world) using the microphone and a tankbot. There is also a [startup script](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/world.sh) for that world.\
     a. If you want to use the example world, it's probably easiest to clone the entire repo and make from the parent directory. Then you can call ./world.sh and the world will load.
 
