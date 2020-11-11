@@ -29,7 +29,7 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
 
 4. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
     a. You need to create a .so for your plugin. The important lines to have for the microphone plugin of [this makefile](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/Makefile) are lines 4, 11-13, and 18.\
-    b. You'll also need a Makefile for your parent directory, which can mimic [this one](https://github.com/nbock/cs5335-nm/blob/plugins/Makefile).\
+    b. You'll also need a Makefile for your parent directory, which can mimic [this one](https://github.com/nbock/cs5335-nm/blob/plugins/Makefile).
 
 5. If you've done all this, you should be ready to initialize your world and see the microphone plugin.
 
