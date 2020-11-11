@@ -16,6 +16,7 @@ class Robot {
     float pos_y;
     float range;
     float pos_t;
+    int noise;
     cv::Mat frame;
 
     Robot(int argc, char* argv[], void (*cb)(Robot*));
@@ -28,7 +29,7 @@ class Robot {
     void set_vel(double lvel, double rvel);
 
     void on_scan(ConstSonarStampedPtr &msg);
-    void on_frame(ConstAnyPtr &msg);
+    void on_sound(ConstIntPtr &msg);
     void on_pose(ConstPoseStampedPtr &msg);
 
   private:

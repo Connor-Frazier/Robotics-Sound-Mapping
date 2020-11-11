@@ -16,9 +16,6 @@ then a Image Window will pop up, in order to view the Image in time.
 void
 callback(Robot* robot)
 {
-    cout << robot->pos_t << endl;
-    //cout << "here2" <<endl;
-    //cam_show(robot->frame);
     if (robot->range < 1){
         robot->set_vel(-1, 1);
         return;
@@ -31,8 +28,6 @@ callback(Robot* robot)
 int
 main(int argc, char* argv[])
 {
-    cout << "here1" <<endl;
-
 
     cout << "making robot" << endl;
     Robot robot(argc, argv, callback);

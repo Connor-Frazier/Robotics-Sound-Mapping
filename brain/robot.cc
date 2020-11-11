@@ -37,6 +37,7 @@ Robot::Robot(int argc, char* argv[], void (*cb)(Robot*))
     vel_pub = node->Advertise<gazebo::msgs::Any>("~/tankbot0/vel_cmd");
     vel_pub->WaitForConnection();
 
+    cout << "Here" << endl;
     scan_sub = node->Subscribe(
         string("~/tankbot0/tankbot/ultrasonic_sensor/link/sonar/sonar"),
         &Robot::on_scan,
@@ -45,8 +46,8 @@ Robot::Robot(int argc, char* argv[], void (*cb)(Robot*))
     );
 
     mic_sub = node->Subscribe(
-        string("~/tankbot0/tankbot/microphone_sensor/link/wrench"),
-        &Robot::on_frame,
+        string("~/tankbot0/mic"),
+        &Robot::on_sound,
         this,
         false
     );
@@ -125,9 +126,10 @@ Robot::on_scan(ConstSonarStampedPtr &msg)
 }
 
 void
-Robot::on_frame(ConstAnyPtr &msg)
+Robot::on_sound(ConstIntPtr &msg)
 {
-    cout << msg->int_value() << endl;
+
+    this->noise = msg->data();
     this->on_update(this);
 }
 
