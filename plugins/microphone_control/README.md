@@ -69,3 +69,20 @@ gz topic -e /gazebo/default/tankbot/mic
 ```terminal
 gz topic -e /gazebo/default/tankbot/mic
 ```
+
+## Fitting this to your world
+In the example world, each (x, y) grid space is treated as 1 meter by 1 meter by this version of the microphone plugin. This means a sound source at (3, 3) is barely audible at 60 decibels from the origin (0, 0). That makes sense if you consider that 60 decibels is a normal conversation volume and that conversation is 4.24 meters away (about 14 feet). In real life, you'd expect to hear the noises, but not that loudly.
+
+Changing the the distance parameters is pretty easy. For example, if you want to make each (x, y) grid space 0.33 meters, just divide dist by 3 in the return statement on line 72 of [microphone_control](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/microphone_control/microphone_control.cc):
+```cpp  
+return dist / 3.0;
+```
+
+You'll run into trouble with this if you set each grid value to be <= 1/6th of a meter in each direction. This is because intensity depends inversely on the distance squared, so the distance square must be at least 1:
+```cpp
+double distance = pow(dist, 2);
+double denom = std::max(distance, 1.0);
+double intensity = 1 / denom; // if denom < 1, intensity increases, which makes no sense
+```
+
+All this is to say, you can easily change how far away the microphone considers its sources, but the microphone plugin won't work well on worlds that are discretized into spaces with grid values (x, y) that represent a space less than 1/6th by 1/6th of a meter. I think this is a reasonable constraint given that that would be an (x, y) grid that is approx. 6 inches by 6 inches.
