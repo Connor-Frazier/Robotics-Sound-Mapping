@@ -3,15 +3,16 @@
 The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built in microphone that measures sound from the environment. This plugin mimics that microphone and is intended to be included in a model for the mBot ranger.
 ## Set up
 0. The easiest way (and therefore the recommended set up process) is to clone [this repo](https://github.com/nbock/cs5335-nm/tree/plugins), make, and execute world.sh. If you do that and see "hello from MicControlPlugin" on Gazebo start up, skip to Setting up sound sources.
-1. Make a world. This plugin has an [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world) using the microphone and a tankbot. There is also a [startup script](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/world.sh) for that world.\
-    a. If you want to use the example world, it's probably easiest to clone the entire repo and make from the parent directory. Then you can call ./world.sh and the world will load.
+1. Make a world. This plugin has an [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world) using the microphone and a tankbot. There is also a [startup script](https://github.com/nbock/cs5335-nm/blob/plugins/world.sh) for that world.\
+    a. If you want to use the example world, it's probably easiest to clone the entire repo and make from the parent directory. Then you can call `./world.sh` and the world will load.
 
 2. If you chose to make your own world, load your models for a car or tankbot or whatever vehicle into the world.
 
 3. Now, attach the microphone model to the tankbot.\
     a. To do this, you'll need to include the microphone sensor model in the tankbot model.\
     b. The [microphone model](https://github.com/nbock/cs5335-nm/tree/plugins/models/microphone_sensor) is very simple, but will need to be added to your models directory. Add the entire microphone_sensor directory.\
-    b. An example of this is done in the [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world), but you can also just add the following lines into your vehicle model:
+    b. An example of this is done in the [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world)\
+    c. You should add the following lines into your vehicle model (not the world model):
     ```xml
     <include>
       <uri>model://microphone_sensor</uri> <!--change this to your model directory-->
@@ -26,14 +27,15 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
       <parent>chassis</parent>
     </joint>
     ```
-    **NOTE**: you'll want to edit the pose of your microphone_sensor to sit atop your vehicle model. The example pose is for the tankbot in world.sh.
-    **OTHER BUT EQUALLY IMPORTANT NOTE**: The naming convention for your models matters and will influence what the topic names you're using are. Mimic the examples as close as possible.
+    **NOTE**: you'll want to edit the pose of your microphone_sensor to sit atop your vehicle model. The example pose is for the tankbot in world.sh.\
+    **NOTE**: The naming convention for your models matters and will influence what the topic names you're using are. Mimic the examples as close as possible.
 
-4. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
+4. Make sure you followed the second note above, it's super important (this is just a reminder)
+5. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
     a. You need to create a .so for your plugin. The important lines to have for the microphone plugin of [this makefile](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/Makefile) are lines 4, 11-13, and 18.\
     b. You'll also need a Makefile for your parent directory, which can mimic [this one](https://github.com/nbock/cs5335-nm/blob/plugins/Makefile).
 
-5. If you've done all this, you should be ready to initialize your world and see the microphone plugin.
+6. If you've done all this, you should be ready to initialize your world and see the microphone plugin.
 
 ## Setting up sound sources
 1. Now we need to set up sound sources. That is done on lines 17-19 on [microphone_control.cc](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/microphone_control/microphone_control.cc)
@@ -49,8 +51,8 @@ int SOURCES_DECIBELS[NUM_SOURCES] = {60, 60};
 
 
 ## Subscribing from robot.cc (or something like it)
-0. Check out [robot.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/robot.cc) and [robot.hh](https://github.com/nbock/cs5335-nm/blob/plugins/brain/robot.hh) for examples on how this is done.
-    a. [brain.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/brain.cc) also has a reference to robot->noise
+0. Check out [robot.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/robot.cc) and [robot.hh](https://github.com/nbock/cs5335-nm/blob/plugins/brain/robot.hh) for examples on how this is done.\
+    a. [brain.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/brain.cc) also has a reference to `robot->noise`
 1. Add an integer `noise` value to robot.hh or your equivalent
 2. Add a SubscriberPtr as a private variable to robot.hh or equivalent
 3. Use your SubscriberPtr to subscribe to the mic topic `~/tankbot0/mic`:
@@ -62,7 +64,7 @@ mic_sub = node->Subscribe(
     false
 );
 ```
-4. Now, Robot->on_sound will be called on each message that is published to the mic topic
+4. Now, `Robot->on_sound` will be called on each message that is published to the mic topic
 5. Store the noise data from your on_sound function
 ```cpp
 void
@@ -80,8 +82,7 @@ Robot::on_sound(ConstIntPtr &msg)
 2. Then executing `./brain` will move the bot in a boring way, but you'll see noise change as you get closer to (3, 3) or (-3, 3)
 
 ## Implementation details
-1. The microphone plugin subscribes to world_stats and calls its OnStats each time a message is published to world_stats.
-2. Sound intensity in the plugin degrades with distance according to the inverse square law. This is also how sound intensity degrades in the real world, but if you want to change that for some reason, the code responsible for the degredation is in make_mic_message:
+1. Sound intensity in the plugin degrades with distance according to the inverse square law. This is also how sound intensity degrades in the real world, but if you want to change that for some reason, the code responsible for the degredation is in make_mic_message:
 ```cpp
 // decibel intensity degrade by the inverse square law
 double distance = pow(dist, 2);
@@ -90,6 +91,7 @@ double intensity = 1 / denom;
 double decibels_float = source_decibels * intensity;
 int decibels = round(decibels_float);
 ```
+2. The microphone plugin subscribes to world_stats and calls its OnStats each time a message is published to world_stats.
 3. Distance is measured in meters.
 4. The command below is useful for seeing what data is being published to the microphone topic. Substitute "tankbot" for whatever model your sound sensor is embedded within:
 ```terminal
