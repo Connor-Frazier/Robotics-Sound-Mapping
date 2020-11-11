@@ -9,11 +9,12 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
 2. If you chose to make your own world, load your models for a car or tankbot or whatever vehicle into the world.
 
 3. Now, attach the microphone model to the tankbot.\
-    a. To do this, you'll need to include the microphone sensor in the tankbot model.\
+    a. To do this, you'll need to include the microphone sensor model in the tankbot model.\
+    b. The [microphone model](https://github.com/nbock/cs5335-nm/tree/plugins/models/microphone_sensor) is very simple, but will need to be added to your models directory. Add the entire microphone_sensor directory.\
     b. An example of this is done in the [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world), but you can also just add the following lines into your vehicle model:
     ```xml
     <include>
-      <uri>model://microphone_sensor</uri>
+      <uri>model://microphone_sensor</uri> // change this to your model directory
       <pose>
         0.0 0.0 0.23
         0.0 0.0 0.0
