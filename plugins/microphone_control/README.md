@@ -86,10 +86,9 @@ Robot::on_sound(ConstIntPtr &msg)
 ```cpp
 // decibel intensity degrade by the inverse square law
 double distance = pow(dist, 2);
-double denom = std::max(distance, 1.0);
+double denom = clamp(1.0, dist, 1000);
 double intensity = 1 / denom;
 double decibels_float = source_decibels * intensity;
-int decibels = round(decibels_float);
 ```
 2. The microphone plugin subscribes to world_stats and calls its OnStats each time a message is published to world_stats.
 3. Distance is measured in meters.
@@ -113,9 +112,11 @@ return dist / 3.0;
 
 You'll run into trouble with this if you set each grid value to be <= 1/6th of a meter in each direction. This is because intensity depends inversely on the distance squared, so the distance square must be at least 1:
 ```cpp
+// decibel intensity degrade by the inverse square law
 double distance = pow(dist, 2);
-double denom = std::max(distance, 1.0);
+double denom = clamp(1.0, dist, 1000);
 double intensity = 1 / denom; // if denom < 1, intensity increases, which makes no sense
+double decibels_float = source_decibels * intensity; // if intensity > 1, decibels are louder than the output decibels at source (also makes no sense)
 ```
 
 All this is to say, you can easily change how far away the microphone considers its sources, but the microphone plugin won't work well on worlds that are discretized into spaces with grid values (x, y) that represent a space less than 1/6th by 1/6th of a meter. I think this is a reasonable constraint given that that would be an (x, y) grid that is approx. 6 inches by 6 inches.
