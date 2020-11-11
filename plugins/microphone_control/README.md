@@ -2,14 +2,15 @@
 ## Description
 The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built in microphone that measures sound from the environment. This plugin mimics that microphone and is intended to be included in a model for the mBot ranger.
 ## Set up
-1. Make a world. This plugin has an [example world](../../worlds/project.world) using the microphone and a tankbot. There is also a [startup script](../../world.sh) for that world.\
+0. The easiest way (and therefore the recommended set up process) is to clone this repo, make, and execute world.sh. If you do that and see "hello from MicControlPlugin" on Gazebo start up, skip to Setting up sound sources.
+1. Make a world. This plugin has an [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world) using the microphone and a tankbot. There is also a [startup script](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/world.sh) for that world.\
     a. If you want to use the example world, it's probably easiest to clone the entire repo and make from the parent directory. Then you can call ./world.sh and the world will load.
 
 2. If you chose to make your own world, load your models for a car or tankbot or whatever vehicle into the world.
 
 3. Now, attach the microphone model to the tankbot.\
     a. To do this, you'll need to include the microphone sensor in the tankbot model.\
-    b. An example of this is done in the [example world](../../world/project.world), but you can also just add the following lines into your vehicle model:
+    b. An example of this is done in the [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world), but you can also just add the following lines into your vehicle model:
     ```xml
     <include>
       <uri>model://microphone_sensor</uri>
@@ -27,24 +28,24 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
     **NOTE**: you'll want to edit the pose of your microphone_sensor to sit atop your vehicle model. The example pose is for the tankbot in world.sh.\
 
 4. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
-    a. You need to create a .so for your plugin. The important lines to have for the microphone plugin of [this makefile](../Makefile) are lines 4, 11-13, and 18.\
-    b. You'll also need a Makefile for your parent directory, which can mimic [this one](../../Makefile).\
+    a. You need to create a .so for your plugin. The important lines to have for the microphone plugin of [this makefile](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/Makefile) are lines 4, 11-13, and 18.\
+    b. You'll also need a Makefile for your parent directory, which can mimic [this one](https://github.com/nbock/cs5335-nm/blob/plugins/Makefile).\
 
 5. If you've done all this, you should be ready to initialize your world and see the microphone plugin.
 
 ## Setting up sound sources
-1. Now we need to set up sound sources. That is done on lines 17-19 on [microphone_control.cc](/microphone_control.cc)
+1. Now we need to set up sound sources. That is done on lines 17-19 on [microphone_control.cc](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/microphone_control/microphone_control.cc)
 ```cpp
 const int NUM_SOURCES = 2;
 int SOURCES[][NUM_SOURCES] = {{3, 3}, {-3, -3}};
 int SOURCES_DECIBELS[NUM_SOURCES] = {60, 60};
 ```
-    a. NUM_SOURCES dicates how many sound sources you have in your world\
-    b. SOURCES is a 2D array of the (x, y) location of your sound sources\
-    c. SOURCES_DECIBELS is an array of the decibels of each sound source\
-    d. Edit all 3 of the global variables to add source sources to your world\
+2. NUM_SOURCES dicates how many sound sources you have in your world
+3. SOURCES is a 2D array of the (x, y) location of your sound sources
+4. SOURCES_DECIBELS is an array of the decibels of each sound source
+5. Edit all 3 of the global variables to add source sources to your world
 
-2. TODO: subscribing in robot.cc
+6. TODO: subscribing in robot.cc
 
 
 ## Implementation details
