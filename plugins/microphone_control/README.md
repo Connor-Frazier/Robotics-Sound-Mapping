@@ -14,7 +14,7 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
     b. An example of this is done in the [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world), but you can also just add the following lines into your vehicle model:
     ```xml
     <include>
-      <uri>model://microphone_sensor</uri> // change this to your model directory
+      <uri>model://microphone_sensor</uri> <!--change this to your model--> directory
       <pose>
         0.0 0.0 0.23
         0.0 0.0 0.0
