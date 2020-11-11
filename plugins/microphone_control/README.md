@@ -14,7 +14,7 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
     b. An example of this is done in the [example world](https://github.com/nbock/cs5335-nm/blob/plugins/worlds/project.world), but you can also just add the following lines into your vehicle model:
     ```xml
     <include>
-      <uri>model://microphone_sensor</uri> <!--change this to your model--> directory
+      <uri>model://microphone_sensor</uri> <!--change this to your model directory-->
       <pose>
         0.0 0.0 0.23
         0.0 0.0 0.0
@@ -26,7 +26,7 @@ The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built 
       <parent>chassis</parent>
     </joint>
     ```
-    **NOTE**: you'll want to edit the pose of your microphone_sensor to sit atop your vehicle model. The example pose is for the tankbot in world.sh.\
+    **NOTE**: you'll want to edit the pose of your microphone_sensor to sit atop your vehicle model. The example pose is for the tankbot in world.sh.
 
 4. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
     a. You need to create a .so for your plugin. The important lines to have for the microphone plugin of [this makefile](https://github.com/nbock/cs5335-nm/blob/plugins/plugins/Makefile) are lines 4, 11-13, and 18.\
