@@ -30,7 +30,7 @@ Contributions and suggestions for improvement are welcome.
 
 Attributions:
 
- https://github.com/NatTuck/cs5335hw-gazebo/blob/master/ranger/gz-ranger-combo/brain/brain.cc. by Professor Nat Tuck Northeastern November 2020
+https://github.com/NatTuck/cs5335hw-gazebo/tree/master/ranger. by Professor Nat Tuck Northeastern November 2020
 
  https://github.com/nbock/cs5335-nm/tree/master by Nolan Bock Northeastern November 2020
 
