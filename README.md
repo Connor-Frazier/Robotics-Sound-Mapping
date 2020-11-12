@@ -35,3 +35,5 @@ Attributions:
  https://github.com/nbock/cs5335-nm/tree/master by Nolan Bock Northeastern November 2020
 
  https://docs.google.com/document/d/16uXDUmgN_9jM2sp_KGJtZZfQTpQ2-PzLDtjUFla_FcA/edit by Victor_Leung
+ 
+ https://docs.google.com/document/d/1EpMWJo9pP2J_pstzXA-XHK8t00Z70SCZYwZ_Kl7VLuw/edit#heading=h.uop2tonh9y21
