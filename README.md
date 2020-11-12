@@ -11,18 +11,21 @@ Plug the sonar sensor into port 9 and the line sensor into port 10 on the mBot R
 
 Load the ranger_serial_firmware.ino file on to your mBot Ranger arduino board.
 
-Download [LibSerial](https://libserial.readthedocs.io/en/latest/index.html#).
-    ```terminal
+Download [LibSerial](https://libserial.readthedocs.io/en/latest/index.html#). Or use
+    ```
     sudo apt install libserial-dev
      ```
-     * NOTE: I had to manually set the path for libserial in my CMakeLists.txt
-     ![instructional](images/libserial.png)
+     
+     
+     * NOTE: You may have to manually set the path for libserial in CMakeLists.txt as seen in this CMakeLists.txt file.
 
 Copy ranger-library.cc and ranger-library.hh into your project. Then include the header
-file in your file of choosing. Make sure to call create connection before any other functions. Then you can use any of the methods to communicate with the robot.
+file in the file of your choosing. Make sure to call create connection before any other functions. Then you can use any of the methods to communicate with the robot.
 
 For convenience, there is an example program provided. You can run make on this directory and then run the brain executable. This will make the robot run all of
-its commands and print a reading from each of the sensors.
+its commands and print a reading from each of the sensors. **Warning, the robot will move around so make sure it is an open space and the cord is free to move with the robot.**
+
+Contributions and suggestions for improvement are welcome.
 
 
 Attributions:
