@@ -6,7 +6,7 @@ Then has functions to control the lights, buzzer, and movement of the robot. It 
 a read function for each of the sensors on the robot that return the value communicated
 from the robot. This directory also has a firmware file that works with the library.
 
-##Instructions:
+## Instructions:
 Plug the sonar sensor into port 9 and the line sensor into port 10 on the mBot Ranger.
 
 Load the ranger_serial_firmware.ino file on to your mBot Ranger arduino board.
