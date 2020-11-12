@@ -10,7 +10,7 @@ using namespace std;
 int
 main(int argc, char* argv[])
 {
-	create_robot_connection();
+	create_robot_connection("/dev/ttyUSB0");
 	sleep(2);
 	set_all_lights(0, 0, 255);
 	sleep(2);

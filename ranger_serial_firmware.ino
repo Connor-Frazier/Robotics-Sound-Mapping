@@ -43,156 +43,137 @@ void setup()
 void loop()
 {
 
-//  Serial.println("hello");
-
   poll_serial();
-
-
-//  if(strcmp("Go", command) == 0){
-//    led.setColor(0, 0, 0, 255);
-//    led.show();
-//  }
-//  
+  
   gyro_sensor.update();
 
-    String command = commandArray;
-//    Serial.println(command);
+  String command = commandArray;
 
-    int argumentCount = 0;
-    for(int i = 0; i < command.length(); i++){
-     if(command.charAt(i) == ' '){
-       argumentCount++;
+  int argumentCount = 0;
+  for(int i = 0; i < command.length(); i++){
+    if(command.charAt(i) == ' '){
+      argumentCount++;
       
-     }
     }
+  }
   
-    if(command.length() > 0){
-//      Serial.println("Command Recieved: " + command); 
-//      Serial.print("Argument Count: ");
-//      Serial.println(argumentCount);
-    }
+  String commandVerb = "";
+  String arguments[argumentCount];
 
-    String commandVerb = "";
-    String arguments[argumentCount];
+  if(argumentCount > 0){
+    command += " ";
+    commandVerb = command.substring(0, command.indexOf(" "));
+    command = command.substring(command.indexOf(" ") + 1);
+    int count = 0;
+    while(count < argumentCount){
+      arguments[count] = command.substring(0, command.indexOf(" "));
+       count++;
+       command = command.substring(command.indexOf(" ") + 1);
+    } 
+  }
 
-    if(argumentCount > 0){
-      command += " ";
-      commandVerb = command.substring(0, command.indexOf(" "));
-//      Serial.println("Verb: " + commandVerb);
-      command = command.substring(command.indexOf(" ") + 1);
-      int count = 0;
-      while(count < argumentCount){
-        arguments[count] = command.substring(0, command.indexOf(" "));
-//        Serial.println(arguments[count]);
-        count++;
-        command = command.substring(command.indexOf(" ") + 1);
-      } 
-    }
-
-    switch(argumentCount){
-      case 0:
-        if (command.equals("read_light")){
+  switch(argumentCount){
+    case 0:
+      if (command.equals("read_light")){
          Serial.println(light_sensor.read());
-        } else if (command.equals("read_sound")){
+      } else if (command.equals("read_sound")){
           Serial.println(sound_sensor.strength());
-        } else if (command.equals("read_gyro_x")){
+      } else if (command.equals("read_gyro_x")){
           Serial.println(gyro_sensor.getAngleX());
-        } else if(command.equals("read_gyro_y")){
+      } else if(command.equals("read_gyro_y")){
           Serial.println(gyro_sensor.getAngleY());
-        } else if(command.equals("read_gyro_z")){
+      } else if(command.equals("read_gyro_z")){
           Serial.println(gyro_sensor.getAngleZ());
-        } else if(command.equals("read_temperature")){
+      } else if(command.equals("read_temperature")){
           Serial.println(temperature_sensor.temperature());
-        } else if(command.equals("read_sonar")){
+      } else if(command.equals("read_sonar")){
           Serial.println(sonar_sensor.distanceCm());
-        } else if(command.equals("read_line")){
-          // Line state is 3 when both sensors are over a line
-          // 2 if sensor 2 is over one, 1 if sesnor 1 is over one
+      } else if(command.equals("read_line")){
           Serial.println(line_sensor.readSensors());
-        } else if(command.equals("stop")){
+      } else if(command.equals("stop")){
           right_motor.setMotorPwm(0);
           left_motor.setMotorPwm(0);
-        } else if(command.equals("forward")){
+      } else if(command.equals("forward")){
           right_motor.setMotorPwm(-200);
           left_motor.setMotorPwm(200);
-        } else if(command.equals("left")){
+      } else if(command.equals("left")){
           right_motor.setMotorPwm(-200);
           left_motor.setMotorPwm(-200);
-        } else if(command.equals("right")){
+      } else if(command.equals("right")){
           right_motor.setMotorPwm(200);
           left_motor.setMotorPwm(200);
-        } else if(command.equals("backward")){
+      } else if(command.equals("backward")){
           right_motor.setMotorPwm(200);
           left_motor.setMotorPwm(-200);
-        } else if(command.equals("light_off")){
+      } else if(command.equals("light_off")){
           led.setColor(0, 0, 0, 0);
           led.show();
-        }
-      
-        break;
-      
-      case 1:
-        if(commandVerb.equals("forward")){ 
-          int speed = arguments[0].toInt();
-          right_motor.setMotorPwm(-speed);
-          left_motor.setMotorPwm(speed);
-        } else if(commandVerb.equals("left")){
-          int speed = arguments[0].toInt();
-          right_motor.setMotorPwm(-speed);
-          left_motor.setMotorPwm(-speed);
-        } else if(commandVerb.equals("right")){
-          int speed = arguments[0].toInt();
-          right_motor.setMotorPwm(speed);
-          left_motor.setMotorPwm(speed);
-        } else if(commandVerb.equals("backward")){
-          int speed = arguments[0].toInt();
-          right_motor.setMotorPwm(speed);
-          left_motor.setMotorPwm(-speed);
-        } else if(commandVerb.equals("light_off")){
-          int index = arguments[0].toInt();
-          led.setColor(index, 0, 0, 0);
-          led.show();
-        }
-      
-        break;
-
-      case 2:
-        if (commandVerb.equals("sound")) {
-          int frequency = arguments[0].toInt();
-          int duration = arguments[1].toInt();
-          buzzer.tone(frequency, duration);
-        } else if (commandVerb.equals("tank_drive")){
-          int right = arguments[0].toInt();
-          int left = arguments[1].toInt();
-          right_motor.setMotorPwm(-right);
-          left_motor.setMotorPwm(left);
-        }
-
-        break;
-
-      case 3:
-        if (commandVerb.equals("light")){
-          int red = arguments[0].toInt();
-          int green = arguments[1].toInt();
-          int blue = arguments[2].toInt();
-          led.setColor(0, red, green, blue);
-          led.show();
-        }
-
-        break;
-
-      case 4:
-        if (commandVerb.equals("light")){
-          int index = arguments[0].toInt();
-          int red = arguments[1].toInt();
-          int green = arguments[2].toInt();
-          int blue = arguments[3].toInt();
-          led.setColor(index, red, green, blue);
-          led.show();
-        }
-
-        break;
       }
+      
+      break;
+      
+    case 1:
+      if(commandVerb.equals("forward")){ 
+         int speed = arguments[0].toInt();
+         right_motor.setMotorPwm(-speed);
+         left_motor.setMotorPwm(speed);
+      } else if(commandVerb.equals("left")){
+         int speed = arguments[0].toInt();
+         right_motor.setMotorPwm(-speed);
+         left_motor.setMotorPwm(-speed);
+      } else if(commandVerb.equals("right")){
+         int speed = arguments[0].toInt();
+         right_motor.setMotorPwm(speed);
+         left_motor.setMotorPwm(speed);
+      } else if(commandVerb.equals("backward")){
+         int speed = arguments[0].toInt();
+         right_motor.setMotorPwm(speed);
+         left_motor.setMotorPwm(-speed);
+      } else if(commandVerb.equals("light_off")){
+         int index = arguments[0].toInt();
+         led.setColor(index, 0, 0, 0);
+         led.show();
+      }
+      
+      break;
+
+    case 2:
+      if (commandVerb.equals("sound")) {
+        int frequency = arguments[0].toInt();
+        int duration = arguments[1].toInt();
+        buzzer.tone(frequency, duration);
+      } else if (commandVerb.equals("tank_drive")){
+        int right = arguments[0].toInt();
+        int left = arguments[1].toInt();
+        right_motor.setMotorPwm(-right);
+        left_motor.setMotorPwm(left);
+      }
+
+      break;
+
+    case 3:
+      if (commandVerb.equals("light")){
+        int red = arguments[0].toInt();
+        int green = arguments[1].toInt();
+        int blue = arguments[2].toInt();
+        led.setColor(0, red, green, blue);
+        led.show();
+      }
+
+      break;
+
+    case 4:
+      if (commandVerb.equals("light")){
+        int index = arguments[0].toInt();
+        int red = arguments[1].toInt();
+        int green = arguments[2].toInt();
+        int blue = arguments[3].toInt();
+        led.setColor(index, red, green, blue);
+        led.show();
+      }
+
+      break;
+   }
 
    commandArray[0] = 0;
    memset(commandArray, 0, sizeof(commandArray));
