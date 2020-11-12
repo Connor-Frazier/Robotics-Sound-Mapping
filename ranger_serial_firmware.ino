@@ -4,7 +4,7 @@
 
 MeLightSensor light_sensor(2);
 MeSoundSensor sound_sensor(5);
-MeGyro gyro_sensor;
+MeGyro gyro_sensor(1, 0x69);
 MeTemperature temperature_sensor(PORT_13);
 MeUltrasonicSensor sonar_sensor(9);
 MeLineFollower line_sensor(10);
