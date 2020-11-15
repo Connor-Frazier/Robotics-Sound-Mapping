@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<sdf version='1.7'>
+  <model name='cameradown'>
+      <include>
+        <uri>model://camera_sensor</uri>
+        <pose>
+          0.0 0.0 0.23
+          0.0 0.0 0.0
+        </pose>
+      </include>
+    <static>0</static>
+    <allow_auto_disable>1</allow_auto_disable>
+    <plugin name="linefollow_controller" filename="liblinefollow_control_plugin.so"></plugin>
+  </model>
+</sdf>
