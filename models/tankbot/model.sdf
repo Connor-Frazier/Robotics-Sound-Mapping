@@ -320,6 +320,11 @@
       </pose>
     </include>
 
+    <joint name="camera_joint" type="fixed">
+      <child>camera_sensor::link</child>
+      <parent>chassis</parent>
+    </joint>
+
     <include>
       <uri>model://microphone_sensor</uri>
       <pose>
@@ -327,11 +332,6 @@
         0.0 0.0 0.0
       </pose>
     </include>
-
-    <joint name="camera_joint" type="fixed">
-      <child>camera_sensor::link</child>
-      <parent>chassis</parent>
-    </joint>
 
   <plugin name="tankbot_control" filename='libtank_control_plugin.so'/>
   </model>
