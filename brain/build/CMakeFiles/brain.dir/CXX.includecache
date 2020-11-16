@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/nolan/Documents/CS5335/cs5335-nm/brain/brain.cc
+iostream
+-
+math.h
+-
+robot.hh
+/home/nolan/Documents/CS5335/cs5335-nm/brain/robot.hh
+
 /home/nolan/Documents/CS5335/cs5335-nm/brain/robot.cc
 iostream
 -
