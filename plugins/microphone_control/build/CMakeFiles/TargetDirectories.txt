@@ -1,3 +1,0 @@
-/home/nolan/Documents/CS5335/cs5335-nm/plugins/microphone_control/build/CMakeFiles/rebuild_cache.dir
-/home/nolan/Documents/CS5335/cs5335-nm/plugins/microphone_control/build/CMakeFiles/edit_cache.dir
-/home/nolan/Documents/CS5335/cs5335-nm/plugins/microphone_control/build/CMakeFiles/microphone_control_plugin.dir

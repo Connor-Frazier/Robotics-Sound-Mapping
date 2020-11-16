@@ -59,6 +59,13 @@ Robot::Robot(int argc, char* argv[], void (*cb)(Robot*))
         false
     );
 
+    frame_sub = node->Subscribe(
+        string("~/tankbot0/tankbot/camera_sensor/link/camera/image"),
+        &Robot::on_frame,
+        this,
+        false
+    );
+
     cout << "robot created" << endl;
 }
 
@@ -115,6 +122,23 @@ Robot::set_vel(double lvel, double rvel)
 }
 
 void
+Robot::on_frame(ConstImageStampedPtr &msg)
+{
+    msgs::Image image = msg->image();
+
+    char* data = (char*)malloc(image.data().size());
+    memcpy(data, image.data().c_str(), image.data().size());
+    cv::Mat temp(image.height(), image.width(), CV_8UC3, data);
+    cv::Mat temp2 = temp.clone();
+    cv::cvtColor(temp, temp2, cv::COLOR_RGBA2BGRA);
+    this->frame = temp2.clone();
+    assert(this->frame.size().height > 0);
+    free(data);
+
+    this->on_update(this);
+}
+
+void
 Robot::on_scan(ConstSonarStampedPtr &msg)
 {
     //cout << "Receiving the Sonar message from Sonar Sensor" << endl;
@@ -140,8 +164,9 @@ Robot::on_pose(ConstPoseStampedPtr &msg)
     auto y_error = ((rand() % 21) - 10) * 0.02;
 
     auto pos = msg->pose().position();
-    this->pos_x = pos.x() + x_error;
-    this->pos_y = pos.y() + y_error;
+    // no x and y error
+    this->pos_x = pos.x();
+    this->pos_y = pos.y();
 
     auto rot = msg->pose().orientation();
     ignition::math::Quaternion<double> qrot(rot.w(), rot.x(), rot.y(), rot.z());

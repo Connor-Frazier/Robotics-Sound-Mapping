@@ -28,6 +28,7 @@ class Robot {
 
     void set_vel(double lvel, double rvel);
 
+    void on_frame(ConstImageStampedPtr &msg);
     void on_scan(ConstSonarStampedPtr &msg);
     void on_sound(ConstIntPtr &msg);
     void on_pose(ConstPoseStampedPtr &msg);
@@ -40,6 +41,7 @@ class Robot {
     gazebo::transport::SubscriberPtr scan_sub;
     gazebo::transport::SubscriberPtr mic_sub;
     gazebo::transport::SubscriberPtr pose_sub;
+    gazebo::transport::SubscriberPtr frame_sub;
 };
 
 #endif
