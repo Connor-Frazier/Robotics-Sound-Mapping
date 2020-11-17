@@ -9,7 +9,7 @@ I don't think this is a perfect replica of the mBot ranger's sensors since this 
 
 ## Set up
 0. The easiest way (and therefore the recommended set up process) is to clone [this repo](https://github.com/nbock/cs5335-nm/tree/linefollow), make, and execute world.sh.
-1. Make a world. This plugin has an [example world](https://github.com/nbock/cs5335-nm/blob/linefollow/worlds/line.world) using the microphone and a tankbot. There is also a [startup script](https://github.com/nbock/cs5335-nm/blob/linefollow/world.sh) for that world.\
+1. Make a world. This plugin has an [example world](https://github.com/nbock/cs5335-nm/blob/linefollow/worlds/line.world) using the line follower and a tankbot. There is also a [startup script](https://github.com/nbock/cs5335-nm/blob/linefollow/world.sh) for that world.\
     a. If you want to use the example world, it's probably easiest to clone the entire repo and make from the parent directory. Then you can call `./world.sh` and the world will load.
 
 2. If you chose to make your own world, load your models for a car or tankbot or whatever vehicle into the world.
@@ -37,20 +37,15 @@ I don't think this is a perfect replica of the mBot ranger's sensors since this 
     **NOTE**: The naming convention for your models matters and will influence what the topic names you're using are. Mimic the examples as close as possible.
 
 4. Make sure you followed the second note above, it's super important (this is just a reminder)
-5. Edit your Makefile. Your Makefile should mimic the one included in [plugins](../).\
-    a. You need to create a .so for your plugin. Check out the example Makefile for guidance on this.\
-    b. You'll also need a Makefile for your parent directory, which can mimic the example Makefile in the parent directorys.
-
-6. If you've done all this, you should be ready to initialize your world and see the camera plugin (since it's facing down, the preview is underground, but you can still zoom underground to see it).
+5. If you've done all this, you should be ready to initialize your world and see the camera plugin (since it's facing down, the preview is underground, but you can still zoom underground to see it).
 
 ## Setting up lines
 1. Easiest to just do this from the example world
-2. If you don't want to use the example world, insert a block, color it your preferred color and put it in the robots path.
+2. If you don't want to use the example world, insert a block, color it your preferred color, make it nearly flat, and put it in the robots path.
 
 
 ## Subscribing from robot.cc (or something like it)
 0. Check out robot.cc and robot.cc in [brain](https://github.com/nbock/cs5335-nm/tree/linefollow/brain) for examples on how this is done.\
-    a. [brain.cc](https://github.com/nbock/cs5335-nm/blob/plugins/brain/brain.cc) also has a reference to `robot->noise`
 1. Add a `cv::Mat frame` value to robot.hh or your equivalent
 2. Add a SubscriberPtr as a private variable to robot.hh or equivalent
 3. Use your SubscriberPtr to subscribe to the camera topic `~/tankbot0/tankbot/camera_sensor/link/camera/image`:
@@ -90,14 +85,14 @@ Robot::on_frame(ConstImageStampedPtr &msg)
 
 ## Implementation details
 1. The frame is a 2x2 grid.
-2. What type of lines your looking for is controlled in brain.cc in `get_line_status(Robot* robot)`\
+2. What type of lines your robot is looking for is controlled in brain.cc by `get_line_status(Robot* robot)`\
     a. By default, it looks for dark lines (r,g,b) < (100,100,100)\
     b. If you want to change that, do it in `get_line_status`
 3. Line states are as follows:\
     0: no line found\
     1: line on the left side of the frame (left side of the bot, left two pixels in the 2x2 grid that is the frame)\
     2: line on the right side of the frame\
-    3: line on both sides of the frame\
+    3: line on both sides of the frame
 4. If you aren't sure what topic your mic is on, use the following to list all topics:
 ```terminal
 gz topic -l
@@ -105,4 +100,4 @@ gz topic -l
 5. The frame publishes colors in quadruples (I believe) that all end in 255. So true black is [0,0,0,255]. As such, the plugin gets a quadruple to represent each pixel of the frame: `cv::Vec4b left_front = robot->frame.at<Vec4b>(0, 0);`. In this case, `left_front[3]` is ignored as it is treated as a delimeter.
 
 ## Attributions
-1. Lots of the pixel processing code was expanded upon from Professor Tuck's [scratch code](https://github.com/NatTuck/scratch-2020-09/tree/master/5335/11/hw08). 
+1. Lots of the pixel processing code was expanded upon from Professor Tuck's [scratch code](https://github.com/NatTuck/scratch-2020-09/tree/master/5335/11/hw08).
