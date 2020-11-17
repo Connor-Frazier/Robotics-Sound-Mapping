@@ -6,6 +6,7 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
+#include <opencv2/core/mat.hpp>
 
 #include "robot.hh"
 
@@ -135,7 +136,59 @@ Robot::on_frame(ConstImageStampedPtr &msg)
     assert(this->frame.size().height > 0);
     free(data);
 
+    // each frame, update the line status
+    this->line_status = this->get_line_status();
     this->on_update(this);
+}
+
+int
+Robot::get_line_status() {
+    if (!this->frame.empty()) {
+        // there is a 255 separator after every 3 rgb values, so we get 4
+        cv::Vec4b left_front = this->frame.at<cv::Vec4b>(0, 0);
+        cv::Vec4b left_back = this->frame.at<cv::Vec4b>(1, 0);
+        cv::Vec4b right_front = this->frame.at<cv::Vec4b>(0, 1);
+        cv::Vec4b right_back = this->frame.at<cv::Vec4b>(1, 1);
+
+        int leftfront = false;
+        int leftback = false;
+        int rightfront = false;
+        int rightback = false;
+
+        // find dark lines
+        if (left_front[0] < 100 && left_front[1] < 100 && left_front[2] < 100)
+        {
+            leftfront = true;
+        }
+        if (left_back[0] < 100 && left_back[1] < 100 && left_back[2] < 100)
+        {
+            leftback = true;
+        }
+        if (right_front[0] < 100 && right_front[1] < 100 && right_front[2] < 100)
+        {
+            rightfront = true;
+        }
+        if (right_back[0] < 100 && right_back[1] < 100 && right_back[2] < 100)
+        {
+            rightback = true;
+        }
+
+        // return status like the mBot ranger
+        if (leftfront && leftback && rightfront && rightback)
+        {
+            return 3;
+        }
+        else if (leftfront && leftback)
+        {
+            return 1;
+        }
+        else if (rightfront && rightback)
+        {
+            return 2;
+        }
+
+    }
+    return 0;
 }
 
 void

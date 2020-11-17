@@ -17,6 +17,7 @@ class Robot {
     float range;
     float pos_t;
     int noise;
+    int line_status;
     cv::Mat frame;
 
     Robot(int argc, char* argv[], void (*cb)(Robot*));
@@ -25,6 +26,7 @@ class Robot {
     bool at_goal();
     void do_stuff();
     void done();
+    int get_line_status();
 
     void set_vel(double lvel, double rvel);
 
