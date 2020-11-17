@@ -57,16 +57,16 @@ class GzRobot : public Robot {
 };
 
 class RgRobot : public Robot {
-public:
-  RgRobot(int argc, char* argb[], void (*cb)(Robot*));
-  ~RgRobot();
+    public:
+      RgRobot(int argc, char* argb[], void (*cb)(Robot*));
+      ~RgRobot();
 
-  int get_line_status();
-  double get_noise_sensor();
-  void set_vel(double lvel, double rvel);
-  void do_stuff();
+      int get_line_status();
+      double get_noise_sensor();
+      void set_vel(double lvel, double rvel);
+      void do_stuff();
 
-  void (*on_update)(Robot*);
+      void (*on_update)(Robot*);
 };
 
 #endif

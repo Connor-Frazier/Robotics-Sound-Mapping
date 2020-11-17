@@ -232,3 +232,5 @@ GzRobot::on_pose(ConstPoseStampedPtr &msg)
 
     this->on_update(this);
 }
+
+Robot::~Robot() {}
