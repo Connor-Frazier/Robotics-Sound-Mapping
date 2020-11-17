@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <unistd.h>
 
 #include "robot.hh"
 
@@ -16,11 +17,13 @@ then a Image Window will pop up, in order to view the Image in time.
 void
 callback(Robot* robot)
 {
-    cout << "Line status: " << robot->get_line_status() << endl;
+    // cout << "Line status: " << robot->get_line_status() << endl;
+    //
+    // cout << robot->get_noise_sensor() << endl;
 
-    cout << "Noise is: " << robot->get_noise_sensor() << endl;
+    robot->set_vel(200.0, 200.0);
 
-    robot->set_vel(2.0, 2.0);
+    sleep(2);
 
     return;
 }
@@ -36,6 +39,11 @@ main(int argc, char* argv[])
     if(bname == "gz_brain") {
       std::cout << "making robot: Gazebo mode" << '\n';
       robot = new GzRobot(argc, argv, callback);
+    }
+
+    if(bname == "rg_brain") {
+      std::cout << "making robot: Ranger mode" << '\n';
+      robot = new RgRobot(argc, argv, callback);
     }
 
     robot->do_stuff();
