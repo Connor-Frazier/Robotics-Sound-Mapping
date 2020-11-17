@@ -2,7 +2,7 @@
 ## Description
 The [mBot ranger](https://www.makeblock.com/steam-kits/mbot-ranger) has a built in line follower that detects black lines on white backgrounds and white lines on black backgrounds. This plugin simulates that sensor with a downward facing camera that has 4 states: 0, 1, 2, and 3. 0 represents no line being found, 1 represents a line on the left side of the sensor, 2 represents a line on the right side of the sensor, and 3 represents a line on both sides of the sensor. This is meant to mimic the mBot's line follower which uses two downward cameras and has the same states.
 ## Disclaimer
-I don't think this is a perfect replica of the mBot ranger's sensors since this only uses one camera. A more accurate simulation would have two cameras that only know if they are on a line or not. The states would be determined in the control plugin and would (I think) have to override the built in camera sensor that Gazebo gives us. I think that the current sensor plugin is sufficient to simulate the mBot's sensor, but it would definitely be improved by having two cameras.
+I don't think this is a perfect replica of the mBot ranger's sensors since this only uses one camera. A more accurate simulation would have two cameras that only know if they are on a line or not. The states would be determined in the control plugin and would (I think) have to extend the built in camera sensor that Gazebo gives us. I think that the current sensor plugin is sufficient to simulate the mBot's sensor, but it would definitely be improved by having two cameras.
 ## Dependencies
 1. Make sure you have [opencv2](https://opencv.org/opencv-2-4-8/)
 2. This plugin expands upon the [microphone plugin](https://github.com/nbock/cs5335-nm/tree/plugins/plugins/microphone_control), so all of its dependencies are required for this, as well.
@@ -45,10 +45,11 @@ I don't think this is a perfect replica of the mBot ranger's sensors since this 
 
 
 ## Subscribing from robot.cc (or something like it)
-0. Check out robot.cc and robot.cc in [brain](https://github.com/nbock/cs5335-nm/tree/linefollow/brain) for examples on how this is done.\
-1. Add a `cv::Mat frame` value to robot.hh or your equivalent
-2. Add a SubscriberPtr as a private variable to robot.hh or equivalent
-3. Use your SubscriberPtr to subscribe to the camera topic `~/tankbot0/tankbot/camera_sensor/link/camera/image`:
+0. Check out robot.cc and robot.hh in [brain](https://github.com/nbock/cs5335-nm/tree/linefollow/brain) for examples on how this is done.\
+1. Add `cv::Mat frame` and `int line_status` value to robot.hh or your equivalent
+2. Add `Robot->get_line_status` to your robot.cc and robot.hh
+3. Add a SubscriberPtr as a private variable to robot.hh or equivalent
+4. Use your SubscriberPtr to subscribe to the camera topic `~/tankbot0/tankbot/camera_sensor/link/camera/image`:
 ```cpp
 frame_sub = node->Subscribe(
     string("~/tankbot0/tankbot/camera_sensor/link/camera/image"),
@@ -74,10 +75,12 @@ Robot::on_frame(ConstImageStampedPtr &msg)
     assert(this->frame.size().height > 0);
     free(data);
 
+    // each frame, update the line status
+    this->line_status = Robot->get_line_status
     this->on_update(this);
 }
 ```
-6. Now you can reference the frame from `Robot->frame`
+6. Now you can reference the line status from `Robot->line_status`
 
 ## Running it
 1. If you pull the entire cs5335-nm branch called "linefollow" you can make and `./world.sh` will start the world
@@ -85,7 +88,7 @@ Robot::on_frame(ConstImageStampedPtr &msg)
 
 ## Implementation details
 1. The frame is a 2x2 grid.
-2. What type of lines your robot is looking for is controlled in brain.cc by `get_line_status(Robot* robot)`\
+2. What type of lines your robot is looking for is controlled in robot.cc by `get_line_status(Robot* robot)`\
     a. By default, it looks for dark lines (r,g,b) < (100,100,100)\
     b. If you want to change that, do it in `get_line_status`
 3. Line states are as follows:\
