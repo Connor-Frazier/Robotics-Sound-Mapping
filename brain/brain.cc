@@ -16,25 +16,29 @@ then a Image Window will pop up, in order to view the Image in time.
 void
 callback(Robot* robot)
 {
-    if (robot->range < 1){
-        robot->set_vel(-1, 1);
-        return;
-    }
+    cout << "Line status: " << robot->get_line_status() << endl;
 
-    cout << "Line status: " << robot->line_status << endl;
+    cout << "Noise is: " << robot->get_noise_sensor() << endl;
 
     robot->set_vel(2.0, 2.0);
-    cout << "Noise is: " << robot->noise << endl;
+
     return;
 }
 
 int
 main(int argc, char* argv[])
 {
+    Robot* robot = 0;
 
-    cout << "making robot" << endl;
-    Robot robot(argc, argv, callback);
-    robot.do_stuff();
+    std::string bname(basename(argv[0]));
+    std::cout << "bin: [" << bname << "]" << endl;
 
+    if(bname == "gz_brain") {
+      std::cout << "making robot: Gazebo mode" << '\n';
+      robot = new GzRobot(argc, argv, callback);
+    }
+
+    robot->do_stuff();
+    delete robot;
     return 0;
 }

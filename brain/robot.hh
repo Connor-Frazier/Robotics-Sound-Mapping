@@ -10,6 +10,15 @@
 
 class Robot {
   public:
+    virtual ~Robot() = 0;
+    virtual int get_line_status() = 0;
+    virtual double get_noise_sensor() = 0;
+    virtual void set_vel(double lvel, double rvel) = 0;
+    virtual void do_stuff() = 0;
+};
+
+class GzRobot : public Robot {
+  public:
     void (*on_update)(Robot*);
 
     float pos_x;
@@ -20,15 +29,16 @@ class Robot {
     int line_status;
     cv::Mat frame;
 
-    Robot(int argc, char* argv[], void (*cb)(Robot*));
-    ~Robot();
+    GzRobot(int argc, char* argv[], void (*cb)(Robot*));
+    ~GzRobot();
 
     bool at_goal();
-    void do_stuff();
     void done();
-    int get_line_status();
 
+    int get_line_status();
+    double get_noise_sensor();
     void set_vel(double lvel, double rvel);
+    void do_stuff();
 
     void on_frame(ConstImageStampedPtr &msg);
     void on_scan(ConstSonarStampedPtr &msg);
@@ -44,6 +54,19 @@ class Robot {
     gazebo::transport::SubscriberPtr mic_sub;
     gazebo::transport::SubscriberPtr pose_sub;
     gazebo::transport::SubscriberPtr frame_sub;
+};
+
+class RgRobot : public Robot {
+public:
+  RgRobot(int argc, char* argb[], void (*cb)(Robot*));
+  ~RgRobot();
+
+  int get_line_status();
+  double get_noise_sensor();
+  void set_vel(double lvel, double rvel);
+  void do_stuff();
+
+  void (*on_update)(Robot*);
 };
 
 #endif
