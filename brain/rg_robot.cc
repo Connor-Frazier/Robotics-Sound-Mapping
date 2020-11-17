@@ -20,12 +20,10 @@ RgRobot::RgRobot(int argc, char* argv[], void (*cb)(Robot*))
     create_robot_connection("/dev/ttyUSB0");
 }
 
-/*
 RgRobot::~RgRobot()
 {
 
 }
-*/
 
 int
 RgRobot::get_line_status(){
