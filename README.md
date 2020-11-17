@@ -59,7 +59,7 @@ frame_sub = node->Subscribe(
 );
 ```
 4. Now, `Robot->on_frame` will be called on each message that is published to the frame topic
-5. Store the frame data from your on_frame function
+5. Store the frame data from your on_frame function and call your line status update on each frame
 ```cpp
 void
 Robot::on_frame(ConstImageStampedPtr &msg)
