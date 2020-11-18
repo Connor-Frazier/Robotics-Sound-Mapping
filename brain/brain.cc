@@ -17,11 +17,11 @@ then a Image Window will pop up, in order to view the Image in time.
 void
 callback(Robot* robot)
 {
-    // cout << "Line status: " << robot->get_line_status() << endl;
+    cout << robot->get_line_status() << endl;
     //
     // cout << robot->get_noise_sensor() << endl;
 
-    robot->set_vel(200.0, 200.0);
+    // robot->set_vel(200.0, 200.0);
 
     sleep(2);
 
@@ -45,6 +45,8 @@ main(int argc, char* argv[])
       std::cout << "making robot: Ranger mode" << '\n';
       robot = new RgRobot(argc, argv, callback);
     }
+
+    sleep(2);
 
     robot->do_stuff();
     delete robot;
