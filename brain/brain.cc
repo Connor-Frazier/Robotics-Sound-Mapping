@@ -23,7 +23,7 @@ callback(Robot* robot)
 
     // robot->set_vel(200.0, 200.0);
 
-    sleep(2);
+    sleep(5);
 
     return;
 }
