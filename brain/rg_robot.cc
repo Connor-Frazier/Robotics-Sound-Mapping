@@ -17,7 +17,7 @@ using std::string;
 RgRobot::RgRobot(int argc, char* argv[], void (*cb)(Robot*))
     : on_update(cb)
 {
-    create_robot_connection("/dev/ttyUSB2");
+    create_robot_connection("/dev/ttyUSB0");
 }
 
 RgRobot::~RgRobot()

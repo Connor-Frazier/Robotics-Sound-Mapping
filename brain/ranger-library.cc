@@ -171,18 +171,26 @@ std::string read_serial() {
   // while(port.rdbuf() ->in_avail() > 0){
   //   usleep(100);
   // }
-  char temp[100];
-  // port.read(temp, 100);
-  int ii = 0;
-  for(; ii < 96; ++ii){
-    port.read(temp + ii, 1);
-    if(temp[ii] == '\n') {
-      break;
+  string data = "";
+  while(true){
+    char temp[100];
+    // port.read(temp, 100);
+    int ii = 0;
+    for(; ii < 96; ++ii){
+      port.read(temp + ii, 1);
+      if(temp[ii] == '\n') {
+        break;
+      }
+    }
+
+    temp[ii+1] = 0;
+    data = temp;
+    // std::cout << data << '\n';
+    if(data.find_first_not_of(' ') != std::string::npos){
+      return data;
     }
   }
 
-  temp[ii+1] = 0;
-  string data = temp;
   // cout << "data:" << data << endl;
   return data;
 

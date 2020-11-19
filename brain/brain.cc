@@ -8,22 +8,23 @@
 using std::cout;
 using std::endl;
 
-/*
-To view the camera image in time, you could press CTRL-T in Gazebo
-, choosing the Topic-"~/tankbot0/tankbot/camera_sensor/link/camera/image",
-then a Image Window will pop up, in order to view the Image in time.
-*/
-
+int stateCount;
 void
 callback(Robot* robot)
 {
     cout << robot->get_line_status() << endl;
-    //
-    // cout << robot->get_noise_sensor() << endl;
 
-    // robot->set_vel(200.0, 200.0);
+    cout << robot->get_noise_sensor() << endl;
 
-    sleep(5);
+    stateCount++;
+    if(stateCount < 5){
+         robot->set_vel(200.0, 200.0);
+    } else if(stateCount < 10){
+      robot->set_vel(-200.0, -200.0);
+    } else if(stateCount < 10){
+      stateCount = 0;
+      robot->set_vel(-200.0, 200.0);
+    }
 
     return;
 }
@@ -31,6 +32,7 @@ callback(Robot* robot)
 int
 main(int argc, char* argv[])
 {
+    stateCount = 0;
     Robot* robot = 0;
 
     std::string bname(basename(argv[0]));
