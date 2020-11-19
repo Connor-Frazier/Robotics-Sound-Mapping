@@ -170,13 +170,16 @@ double read_gyroscope_z(){
 
 std::string read_serial() {
 
+  //wait until serial data is available
   while(port.rdbuf() ->in_avail() > 0){
     usleep(100);
   }
+
+  //Read data from serial until there is a piece of data found
   string data = "";
-  while(true){
+  bool foundData = false;
+  while(!foundData){
     char temp[100];
-    // port.read(temp, 100);
     int ii = 0;
     for(; ii < 96; ++ii){
       port.read(temp + ii, 1);
@@ -188,7 +191,7 @@ std::string read_serial() {
     temp[ii+1] = 0;
     data = temp;
     if(data.find_first_not_of(' ') != std::string::npos){
-      return data;
+      foundData = true;
     }
   }
 
