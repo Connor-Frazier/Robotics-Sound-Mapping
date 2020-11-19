@@ -12,4 +12,8 @@ https://github.com/NatTuck/cs5335hw-gazebo/tree/master/ranger. by Professor Nat 
 
  https://stackoverflow.com/questions/6444842/efficient-way-to-check-if-stdstring-has-only-spaces by Mark B
 
- https://github.com/crayzeewulf/libserial/blob/master/examples/serial_stream_read_write.cpp by mcsauder
+ https://github.com/crayzeewulf/libserial/blob/master/examples/serial_stream_read_write.cpp by crayzeewulf
+
+ https://github.com/crayzeewulf/libserial/blob/master/examples/serial_stream_read.cpp by creayzeewulf
+
+ https://libserial.readthedocs.io/en/latest/tutorial.html
