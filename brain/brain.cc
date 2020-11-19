@@ -17,13 +17,14 @@ callback(Robot* robot)
     cout << robot->get_noise_sensor() << endl;
 
     stateCount++;
-    if(stateCount < 5){
-         robot->set_vel(200.0, 200.0);
-    } else if(stateCount < 10){
-      robot->set_vel(-200.0, -200.0);
-    } else if(stateCount < 10){
+    std::cout << "state count: " << stateCount << '\n';
+    if(stateCount < 3){
+         robot->set_vel(150.0, 150.0);
+    } else if(stateCount < 6){
+      robot->set_vel(-150.0, -150.0);
+    } else if(stateCount > 6 ){
       stateCount = 0;
-      robot->set_vel(-200.0, 200.0);
+      robot->set_vel(-150.0, 150.0);
     }
 
     return;

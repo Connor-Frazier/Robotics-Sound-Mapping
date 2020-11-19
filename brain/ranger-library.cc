@@ -102,6 +102,8 @@ void tank_drive(int rspeed, int lspeed){
   command = "tank_drive " + to_string(rspeed) + " " + to_string(lspeed);
   port.write(command.c_str(), command.length());
   port.DrainWriteBuffer();
+  string read = read_serial();
+  return;
 }
 
 void make_noise(int frequency, int duration){
@@ -168,9 +170,9 @@ double read_gyroscope_z(){
 
 std::string read_serial() {
 
-  // while(port.rdbuf() ->in_avail() > 0){
-  //   usleep(100);
-  // }
+  while(port.rdbuf() ->in_avail() > 0){
+    usleep(100);
+  }
   string data = "";
   while(true){
     char temp[100];
@@ -185,13 +187,11 @@ std::string read_serial() {
 
     temp[ii+1] = 0;
     data = temp;
-    // std::cout << data << '\n';
     if(data.find_first_not_of(' ') != std::string::npos){
       return data;
     }
   }
 
-  // cout << "data:" << data << endl;
   return data;
 
 }

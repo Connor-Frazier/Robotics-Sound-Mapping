@@ -147,6 +147,7 @@ void loop()
         int left = arguments[1].toInt();
         right_motor.setMotorPwm(-right);
         left_motor.setMotorPwm(left);
+        Serial.println("tank_drive");
       }
 
       break;
@@ -178,6 +179,6 @@ void loop()
    commandArray[0] = 0;
    memset(commandArray, 0, sizeof(commandArray));
    cmd_idx = 0;
-   delay(500);
+   delay(100);
    
 }
