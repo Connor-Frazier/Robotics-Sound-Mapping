@@ -14,9 +14,9 @@ using physics::JointControllerPtr;
 using ignition::math::Pose3d;
 using common::Time;
 
-const int NUM_SOURCES = 2;
-int SOURCES[][NUM_SOURCES] = {{3, 3}, {-3, -3}};
-int SOURCES_DECIBELS[NUM_SOURCES] = {60, 60};
+const int NUM_SOURCES = 1;
+int SOURCES[][NUM_SOURCES] = {0, 0};
+int SOURCES_DECIBELS[NUM_SOURCES] = {60};
 
 class MicrophoneControlPlugin : public ModelPlugin
 {
