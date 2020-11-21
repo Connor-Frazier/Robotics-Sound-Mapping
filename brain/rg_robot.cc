@@ -44,8 +44,8 @@ RgRobot::get_robot_theta(){
 void
 RgRobot::set_vel(double lvel, double rvel)
 {
-    lvel = lvel * 30;
-    rvel = rvel * 30;
+    lvel = lvel * 50;
+    rvel = rvel * 50;
 
     tank_drive(rvel, lvel);
 }
