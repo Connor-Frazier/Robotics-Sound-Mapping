@@ -19,12 +19,12 @@ callback(Robot* robot)
     stateCount++;
     std::cout << "state count: " << stateCount << '\n';
     if(stateCount < 3){
-         robot->set_vel(150.0, 150.0);
+         robot->set_vel(5., 5.0);
     } else if(stateCount < 6){
-      robot->set_vel(-150.0, -150.0);
+      robot->set_vel(-5.0, -5.0);
     } else if(stateCount > 6 ){
       stateCount = 0;
-      robot->set_vel(-150.0, 150.0);
+      robot->set_vel(-5.0, 5.0);
     }
 
     return;

@@ -38,6 +38,10 @@ RgRobot::get_noise_sensor(){
 void
 RgRobot::set_vel(double lvel, double rvel)
 {
+    
+    lvel =  lvel * 30;
+    rvel = rvel *30;
+
     tank_drive(rvel, lvel);
 }
 
