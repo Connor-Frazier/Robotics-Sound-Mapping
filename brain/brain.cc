@@ -16,16 +16,20 @@ callback(Robot* robot)
 
     cout << robot->get_noise_sensor() << endl;
 
+    cout << robot->get_robot_theta() << endl;
+
+    robot->set_vel(-5.0, 5.0);
+
     stateCount++;
-    std::cout << "state count: " << stateCount << '\n';
-    if(stateCount < 3){
-         robot->set_vel(5., 5.0);
-    } else if(stateCount < 6){
-      robot->set_vel(-5.0, -5.0);
-    } else if(stateCount > 6 ){
-      stateCount = 0;
-      robot->set_vel(-5.0, 5.0);
-    }
+    // std::cout << "state count: " << stateCount << '\n';
+    // if(stateCount < 3){
+    //      robot->set_vel(5.0, 5.0);
+    // } else if(stateCount < 6){
+    //   robot->set_vel(-5.0, -5.0);
+    // } else if(stateCount > 6 ){
+    //   stateCount = 0;
+    //   robot->set_vel(-5.0, 5.0);
+    // }
 
     return;
 }

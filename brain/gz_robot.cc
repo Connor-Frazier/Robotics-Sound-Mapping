@@ -21,13 +21,6 @@ using namespace gazebo::transport;
 const double GOAL_X = 20.0;
 const double GOAL_Y = 0.0;
 
-double
-clamp(double xmin, double xx, double xmax)
-{
-    if (xx < xmin) return xmin;
-    return xx;
-}
-
 GzRobot::GzRobot(int argc, char* argv[], void (*cb)(Robot*))
     : on_update(cb), task_done(false)
 {
@@ -213,6 +206,11 @@ GzRobot::on_sound(ConstIntPtr &msg)
 double
 GzRobot::get_noise_sensor() {
   return this->noise;
+}
+
+double
+GzRobot::get_robot_theta() {
+  return this->pos_t;
 }
 
 void

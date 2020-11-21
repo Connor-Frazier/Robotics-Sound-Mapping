@@ -35,12 +35,17 @@ RgRobot::get_noise_sensor(){
   return read_sound_sensor();
 }
 
+double
+RgRobot::get_robot_theta(){
+  double angle = read_gyroscope_z();
+  return (angle * (3.14/180));
+}
+
 void
 RgRobot::set_vel(double lvel, double rvel)
 {
-    
-    lvel =  lvel * 30;
-    rvel = rvel *30;
+    lvel = lvel * 30;
+    rvel = rvel * 30;
 
     tank_drive(rvel, lvel);
 }

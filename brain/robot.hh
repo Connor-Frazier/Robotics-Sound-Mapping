@@ -13,6 +13,7 @@ class Robot {
     virtual ~Robot() = 0;
     virtual int get_line_status() = 0;
     virtual double get_noise_sensor() = 0;
+    virtual double get_robot_theta() = 0;
     virtual void set_vel(double lvel, double rvel) = 0;
     virtual void do_stuff() = 0;
 };
@@ -37,6 +38,7 @@ class GzRobot : public Robot {
 
     int get_line_status();
     double get_noise_sensor();
+    double get_robot_theta();
     void set_vel(double lvel, double rvel);
     void do_stuff();
 
@@ -64,9 +66,18 @@ class RgRobot : public Robot {
       int get_line_status();
       double get_noise_sensor();
       void set_vel(double lvel, double rvel);
+      double get_robot_theta();
       void do_stuff();
 
       void (*on_update)(Robot*);
 };
+
+static
+double
+clamp(double xmin, double xx, double xmax)
+{
+    if (xx < xmin) return xmin;
+    return xx;
+}
 
 #endif
