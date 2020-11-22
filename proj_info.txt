@@ -8,15 +8,30 @@ Make sure to answer all the questions here to qualify for full project credit.
 
 1. What are the names of all members of your team?
 
+Nolan Bock, Connor Frazier Matthew Pashkowsky, Andrew Wirth
+
 
 2. In no more than three sentences, what was your project?
+
+This project explored having a line follower robot autonomously find its way through a simple line based world to a sound emitting target. This included creating a robot firmware, serial communication protocol, gazebo simulation of the world and robot, and control program. For the control program we implemented two algorithms from academic papers; “Algorithm for Line Follower Robots to Follow Critical Paths with Minimum Number of Sensors” and “Auditory Occupancy Grids with a Mobile Robot”.
 
 
 3. What did each team member do to contribute to the project?
 
+Nolan Bock: The gazebo simulation including the world, sensor plugins, and other simulation details.
+
+Connor Frazier: The arduino firmware, mBot Ranger Command Library, and rg_robot/gz_robot classes implementation and build.
+
+Matthew Pashkowsky: The line following algorithm.
+
+Andrew Wirth: The sound occupancy grid mapping algorithm.
+
+
 
 4. What is the URL of your git repository with all your project code and your
 presentation notes / slides?
+
+URL: https://github.com/nbock/cs5335-nm
 
 
 5. Which component do you think was the most innately difficult to build?
@@ -30,3 +45,16 @@ presentation notes / slides?
 
 8. Did you share any generally useful example code with other teams to try for
 a bonus point? If so, what's the Git repo and Piazza post URLs?
+
+1. mBot Ranger Gazebo Microphone plugin
+	Piazza Post URL: https://piazza.com/class/kcnltmm0pvf6l?cid=126
+	Github Repo URL: https://github.com/nbock/cs5335-nm/tree/plugins/plugins/microphone_control
+
+2. mBot Ranger Serial Communication Library
+	Piazza Post URL: https://piazza.com/class/kcnltmm0pvf6l?cid=129
+	Github Repo URL: https://github.com/nbock/cs5335-nm/tree/ranger-library
+
+
+
+
+

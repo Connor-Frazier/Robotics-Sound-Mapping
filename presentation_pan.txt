@@ -3,6 +3,7 @@ CODE:
 Clean code
 Comment code
 Write readme files
+Add Slideshow to git repo
 Final Preparations of nm repo for hand in
 
 DEMO:
