@@ -8,7 +8,7 @@ Make sure to answer all the questions here to qualify for full project credit.
 
 1. What are the names of all members of your team?
 
-Nolan Bock, Connor Frazier Matthew Pashkowsky, Andrew Wirth
+Nolan Bock, Connor Frazier, Matthew Pashkowsky, Andrew Wirth
 
 
 2. In no more than three sentences, what was your project?
@@ -54,7 +54,9 @@ a bonus point? If so, what's the Git repo and Piazza post URLs?
 	Piazza Post URL: https://piazza.com/class/kcnltmm0pvf6l?cid=129
 	Github Repo URL: https://github.com/nbock/cs5335-nm/tree/ranger-library
 
-
+3. mBot Ranger Gazebo Line follower plugin
+	Piazza Post URL: https://piazza.com/class/kcnltmm0pvf6l?cid=131
+	Github Repo URL: https://github.com/nbock/cs5335-nm/tree/linefollow
 
 
 
