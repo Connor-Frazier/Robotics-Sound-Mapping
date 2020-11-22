@@ -1,0 +1,52 @@
+CODE:
+
+Clean code
+Comment code
+Write readme files
+Final Preparations of nm repo for hand in
+
+DEMO:
+
+record demo videos
+	1. the robot in the sim
+	2. the physical robot
+
+	need explanations for what is going on and how the robot is accomplishing its task
+	
+	Connor's Idea: record both videos without audio ideaaly with the same course and sound source location. Everyone get in teams meeting , someone shares their screen with both videos playing side by side, then as a team we explain what the robot is doing, how it is doing it and address the differences bewtween the physical and sim execution. We  record the teams meeting and that is our demo video
+
+post the video on youtube
+
+
+PRESENTATION:
+
+Teams meeting with all four of us to answer these questions:
+
+What did you intend to do? 										1 person
+What work was nessissary to do it?								1 person
+What changed about your plan during execution?					1 person
+What interesting components did you build in the process?		2 People?
+How did those components connect together?						2 people?
+What parts did you expect to be hard that were hard?			1/2 people
+What parts were hard that you didn’t expect?					2 people?
+How did the demo run go?										Everyone or 1 person?
+
+What technique did you implement from an academic paper?		1 person
+What if anything did you change?								1 person
+Make sure your presentation notes / slides have an appropriate reference to the paper.
+
+Connor's Idea:
+
+Create a slideshow with 1 slide for each of the questions, each slide will have a few bullet points about what will be said. Assign slides/questions to people ahead of time.
+
+Hold a meeting in teams with everyone, 1 person screen share the slide show and everyone takes turns speaking.
+
+Use the demo video on youtube to show clips during the presentation, everyone can show a clip during one of their answers. We can set them up ahead of recording.
+
+
+HANDIN:
+
+Answer proj_info.txt in which will have our names and the urls to the github repo , demo video url, and presentation video url
+
+Submit this text file to all three assignments Code, Demo, Presentation
+

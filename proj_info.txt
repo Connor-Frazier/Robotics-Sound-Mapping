@@ -1,0 +1,32 @@
+
+Quesitons for Robotics Final Project
+
+This file should be filled in once for your team and submited once each to the three project assignments: Code, Demo, Presentation
+
+Make sure to answer all the questions here to qualify for full project credit.
+
+
+1. What are the names of all members of your team?
+
+
+2. In no more than three sentences, what was your project?
+
+
+3. What did each team member do to contribute to the project?
+
+
+4. What is the URL of your git repository with all your project code and your
+presentation notes / slides?
+
+
+5. Which component do you think was the most innately difficult to build?
+
+
+6. What's the URL to your Demo video?
+
+
+7. What's the URL to your Presentation video?
+
+
+8. Did you share any generally useful example code with other teams to try for
+a bonus point? If so, what's the Git repo and Piazza post URLs?
