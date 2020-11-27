@@ -188,7 +188,7 @@ callback(Robot* robot)
 	return;
 }
 
-	int
+int
 main(int argc, char* argv[])
 {
 	stateCount = 0;
