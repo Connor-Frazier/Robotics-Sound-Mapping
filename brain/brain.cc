@@ -3,8 +3,8 @@
 #include <math.h>
 #include <string>
 #include <unistd.h>
-#include <iterator> 
-#include <map> 
+#include <iterator>
+#include <map>
 #include "robot.hh"
 extern "C"{
 #include "gfx.c"
@@ -27,7 +27,7 @@ double pos_y;
 void  mapviz(int x, int y, int sound ){
 	cout << "Map Viz "<<y<< "," <<x << endl;
 	gfx_color(0 , 255  /*sound*4.25*/ , 0);
-	for(int t = x*10-5; t <= x*10+5; t++ ){ 
+	for(int t = x*10-5; t <= x*10+5; t++ ){
 		for(int z = y*10-5; z<= y*10+5; z++ ){
 			gfx_point(z+200,t+200);
 	//		cout << "Map Viz "<<y<< "," <<x << endl;
@@ -72,10 +72,10 @@ callback(Robot* robot)
 	pos_x = robot->get_robot_x();
 	pos_y = robot->get_robot_y();
 	cout << pos_x <<" "  << pos_y << " xy working?  "<< lastdir <<  endl;
-	//mapviz (round(pos_x),round(pos_y));  
+	//mapviz (round(pos_x),round(pos_y));
 
 	int intx = round(pos_x);
-	int inty = round(pos_y); 	
+	int inty = round(pos_y);
 	int currentsound = robot->get_noise_sensor();
 	mapviz(round(pos_x),round(pos_y),currentsound);
 	occgrid.insert(make_pair(make_pair(intx,inty),currentsound));
@@ -88,7 +88,7 @@ callback(Robot* robot)
   INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
 
   currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
- cout << currentsound  <<  endl;	
+ cout << currentsound  <<  endl;
   /*if (true){
 
 	  cout << " Theta  "  << robot->get_robot_theta()  <<  endl;
@@ -106,82 +106,84 @@ callback(Robot* robot)
 	}
 	}
 
-	else*/ 
-	
+	else*/
+
 	if(robot->get_line_status()==0){
-    	 	heading = robot->get_robot_theta();
-    	 	sleep(1);
-    	 
-    	 if (currentsound >= maxsound) {
-		robot->set_vel(4, 4);
-		maxsound= currentsound;
-	}
+		heading = robot->get_robot_theta();
 
-	else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
-		turning =  true ;
-		if(abs(pos_t) > 2.5){
+    	if (currentsound >= maxsound) {
 			robot->set_vel(4, 4);
-			lastdir = "backward";
-			lastsound= currentsound;	
+			maxsound= currentsound;
 		}
-		else{
-			robot->set_vel(-4, 4);}
 
-	}
-	else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
-		if(pos_t > 1.25 && pos_t < 1.75) {
-			robot->set_vel(4, 4);
-			lastdir = "left";           
-			lastsound= currentsound;
+		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
+			turning =  true ;
+			if(abs(pos_t) > 2.5){
+				robot->set_vel(4, 4);
+				lastdir = "backward";
+				lastsound= currentsound;
+			}
+			else{
+				robot->set_vel(-4, 4);}
 
 		}
-		else{
-			robot->set_vel(-4, 4);}
+		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
+			if(pos_t > 1.25 && pos_t < 1.75) {
+				robot->set_vel(4, 4);
+				lastdir = "left";
+				lastsound= currentsound;
 
+			}
+			else{
+				robot->set_vel(-4, 4);}
 
-	}
-	else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
-		if(pos_t < -1.25 && pos_t > -1.75) {
-			robot->set_vel(4, 4);
-			lastdir = "right";          
-			lastsound= currentsound;
 
 		}
-		else{
-			robot->set_vel(-4, 4);}                
-	}
-	else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
-		turning =  true ;
-		if(abs(pos_t) < 1){
-			robot->set_vel(4, 4);
-			lastdir = "backward";
-			lastsound= currentsound;
+		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
+			if(pos_t < -1.25 && pos_t > -1.75) {
+				robot->set_vel(4, 4);
+				lastdir = "right";
+				lastsound= currentsound;
+
+			}
+			else {
+				robot->set_vel(-4, 4);
+			}
+		}
+		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
+			turning =  true ;
+			if(abs(pos_t) < 1){
+				robot->set_vel(4, 4);
+				lastdir = "backward";
+				lastsound= currentsound;
+
+			}
+			else{
+				robot->set_vel(-4, 4);}
 
 		}
-		else{
-			robot->set_vel(-4, 4);}
+		else {
+			robot->set_vel(4, 4);
 
+		}
+	}
+	else if(robot->get_line_status()==1) {
+		//If On Right Side Of Line Turn Left
+		robot->set_vel(1.0,1.5);
+	}
+	else if(robot->get_line_status()==2) {
+		//If On Left Side Of Line Turn Right
+		robot->set_vel(1.5,1.0);
 	}
 	else {
-		robot->set_vel(4, 4);
-
+		//If On Line Go Straight
+		robot->set_vel(1.5,1.5);
 	}
-    	}
-    	else if(robot->get_line_status()==1){
-    		//If On Right Side Of Line Turn Left
-    		robot->set_vel(1.0,1.5);
-    	}else if(robot->get_line_status()==2){
-    		//If On Left Side Of Line Turn Right
-    		robot->set_vel(1.5,1.0);
-    	}else{
-    		//If On Line Go Straight
-    		robot->set_vel(1.5,1.5);
-    	}
-	
+
 	return;
 }
 
-	int
+int
 main(int argc, char* argv[])
 {
 	stateCount = 0;
@@ -216,7 +218,8 @@ main(int argc, char* argv[])
 		c = gfx_wait();
 
 		// Quit if it is the letter q.
-		if(c=='q') break;}
+		if(c=='q') break;
+	}
 	delete robot;
 	return 0;
 }
