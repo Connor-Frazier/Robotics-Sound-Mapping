@@ -104,8 +104,8 @@ GzRobot::set_vel(double lvel, double rvel)
     auto r_error = lvel * ((rand() % 21) - 10) * 0.01;
     auto l_error = rvel * ((rand() % 21) - 10) * 0.01;
 
-    lvel = clamp(-4, lvel /*+ l_error*/, 4);
-    rvel = clamp(-4, rvel /*+ r_error*/, 4);
+    lvel = clamp(-4, lvel + l_error, 4);
+    rvel = clamp(-4, rvel + r_error, 4);
 
     //cout << "set_vel: " << lvel << "," << rvel << endl;
     int xx = 128 + int(lvel * 25.0);
@@ -213,30 +213,19 @@ GzRobot::on_sound(ConstIntPtr &msg)
             break;
     }
 
-    this->noise = msg->data() /*+ noise_error*/;
+    this->noise = msg->data() + noise_error;
     this->on_update(this);
 }
 
 double
 GzRobot::get_noise_sensor() {
-  return round(this->noise/10);
+  return this->noise;
 }
 
 double
 GzRobot::get_robot_theta() {
   return this->pos_t;
 }
-
-double
-GzRobot::get_robot_x() {
-  return this->pos_x;
-}
-
-double
-GzRobot::get_robot_y() {
-  return this->pos_y;
-}
-
 
 void
 GzRobot::on_pose(ConstPoseStampedPtr &msg)
