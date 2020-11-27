@@ -73,8 +73,6 @@ callback(Robot* robot)
  	cout << currentsound  <<  endl;
 
 	if(robot->get_line_status()==0){
-		heading = robot->get_robot_theta();
-
     	if (currentsound >= maxsound) {
 			robot->set_vel(4, 4);
 			maxsound= currentsound;
@@ -185,7 +183,7 @@ main(int argc, char* argv[])
 		// Quit if it is the letter q.
 		if(c=='q') break;
 	}
-	
+
 	delete robot;
 	return 0;
 }
