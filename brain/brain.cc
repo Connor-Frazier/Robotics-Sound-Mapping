@@ -73,8 +73,12 @@ callback(Robot* robot)
  	cout << currentsound  <<  endl;
 
 	if(robot->get_line_status()==0){
+<<<<<<< HEAD
 
     if (currentsound >= maxsound) {
+=======
+    	if (currentsound >= maxsound) {
+>>>>>>> 42bbf927a26755089051b2f554d6e488daee5b9b
 			robot->set_vel(4, 4);
 			maxsound= currentsound;
 		}
