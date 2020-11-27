@@ -111,6 +111,7 @@ callback(Robot* robot)
 
 	currentsound = 8;
 	maxsound = 9 ;
+	lastdir = "backward";
 	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t <<  endl;
 //	robot->set_vel(3,-3);
 
@@ -138,13 +139,13 @@ callback(Robot* robot)
 		}
 		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
 			if(pos_t > 1.25 && pos_t < 1.75) {
-				robot->set_vel(1.75, 1.75);
+				robot->set_vel(3, 3);
 				lastdir = "left";
 				lastsound= currentsound;
 
 			}
 			else{
-				robot->set_vel(-1.75, 1.75);}
+				robot->set_vel(3, -3);}
 
 
 		}
