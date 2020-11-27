@@ -24,7 +24,7 @@ Connor Frazier: The arduino firmware, mBot Ranger Command Library, and rg_robot/
 
 Matthew Pashkowsky: The line following algorithm.
 
-Andrew Wirth: The sound occupancy grid mapping algorithm.
+Andrew Wirth: The sound occupancy grid mapping algorithm and updated line follow algorithm.
 
 
 
@@ -35,6 +35,8 @@ URL: https://github.com/nbock/cs5335-nm
 
 
 5. Which component do you think was the most innately difficult to build?
+
+The microphone control plugin was the most innately difficult to build because of all of its dependencies and how sound acts in the real world. Sound degradation in the real world follows the inverse square law, which took a bit of research to understand and implement correctly in the sim. Additionally, creating a completely new plugin and inserting it into an existing model is a fairly difficult task that is sparsely documented by Gazebo, so actually stitching together the workings of the tank_control plugin and the microphone control plugin was difficult. Finally, allowing for the sim to have multiple "competing" sounds means that we need each location to potentially have multiple sound sources acting on it and we need to plugin to decide what the "dominant" sound is and at what decibel. This at of finding a dominant sound was very difficult because it meant we always needed an idea of what sounds are acting on what locations. Once we'd completed all of those steps, we realized that the plugin has floating point sound representations whereas the Ranger bot only has integral sound representations, so we had to do some work to convert from floats to integers, as well
 
 
 6. What's the URL to your Demo video?
@@ -57,6 +59,3 @@ a bonus point? If so, what's the Git repo and Piazza post URLs?
 3. mBot Ranger Gazebo Line follower plugin
 	Piazza Post URL: https://piazza.com/class/kcnltmm0pvf6l?cid=131
 	Github Repo URL: https://github.com/nbock/cs5335-nm/tree/linefollow
-
-
-
