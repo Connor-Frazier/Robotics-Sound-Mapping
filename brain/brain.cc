@@ -24,7 +24,8 @@ double pos_t;
 int stateCount;
 double pos_x;
 double pos_y;
-void  mapviz(int x, int y, int sound ){
+
+void mapviz(int x, int y, int sound ){
 	cout << "Map Viz "<<y<< "," <<x << endl;
 	gfx_color(0 , 255  /*sound*4.25*/ , 0);
 	for(int t = x*10-5; t <= x*10+5; t++ ){
@@ -32,7 +33,8 @@ void  mapviz(int x, int y, int sound ){
 			gfx_point(z+200,t+200);
 	//		cout << "Map Viz "<<y<< "," <<x << endl;
 
-		}}
+		}
+	}
 }
 int tcounter = 0;
 
@@ -44,29 +46,9 @@ int AVERAGED = 0;
 
 
 
-	void
+void
 callback(Robot* robot)
 {
-	//	robot->set_vel(4.0, 4.0);
-
-	/*cout << robot->get_line_status() << endl;
-
-	  cout << robot->get_noise_sensor() << endl;
-
-	  cout << robot->get_robot_theta() << endl;
-	  */
-	// robot->set_vel(-5.0, 5.0)
-
-	/*    stateCount++;
-	      std::cout << "state count: " << stateCount << '\n';
-	      if(stateCount < 3){
-	      robot->set_vel(1.5, 1.5);
-	      } else if(stateCount < 6){
-	      robot->set_vel(-1.5, -1.5);
-	      } else if(stateCount > 6 ){
-	      stateCount = 0;
-	      robot->set_vel(-1.5, 1.5);
-	      }*/
 	cout << robot->get_noise_sensor() <<" "  << robot->get_robot_theta() << " "<< lastdir <<  endl;
 	pos_t = robot->get_robot_theta();
 	pos_x = robot->get_robot_x();
@@ -81,32 +63,14 @@ callback(Robot* robot)
 	occgrid.insert(make_pair(make_pair(intx,inty),currentsound));
 
 
-	 SUM = SUM - READINGS[INDEX];       // Remove the oldest entry from the sum
-  VALUE = currentsound;        // Read the next sensor value
-  READINGS[INDEX] = VALUE;           // Add the newest reading to the window
-  SUM = SUM + VALUE;                 // Add the newest reading to the sum
-  INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
+	SUM = SUM - READINGS[INDEX];       // Remove the oldest entry from the sum
+	VALUE = currentsound;        // Read the next sensor value
+	READINGS[INDEX] = VALUE;           // Add the newest reading to the window
+  	SUM = SUM + VALUE;                 // Add the newest reading to the sum
+  	INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
 
-  currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
- cout << currentsound  <<  endl;
-  /*if (true){
-
-	  cout << " Theta  "  << robot->get_robot_theta()  <<  endl;
-
-	  if ( tcounter % 2 == 0 )
-	  {
-	// robot->set_vel(0, 0);
-
-	robot->set_vel(-4, 4);
-	tcounter++;
-	}
-	else {
-	robot->set_vel(4, 4);
-	tcounter++;
-	}
-	}
-
-	else*/
+  	currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
+ 	cout << currentsound  <<  endl;
 
 	if(robot->get_line_status()==0){
 		heading = robot->get_robot_theta();
@@ -158,9 +122,9 @@ callback(Robot* robot)
 				lastsound= currentsound;
 
 			}
-			else{
-				robot->set_vel(-4, 4);}
-
+			else {
+				robot->set_vel(-4, 4);
+			}
 		}
 		else {
 			robot->set_vel(4, 4);
@@ -213,6 +177,7 @@ main(int argc, char* argv[])
 	sleep(2);
 
 	robot->do_stuff();
+
 	while(1) {
 		// Wait for the user to press a character.
 		c = gfx_wait();
@@ -220,6 +185,7 @@ main(int argc, char* argv[])
 		// Quit if it is the letter q.
 		if(c=='q') break;
 	}
+	
 	delete robot;
 	return 0;
 }
