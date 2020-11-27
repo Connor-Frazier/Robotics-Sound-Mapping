@@ -198,22 +198,8 @@ GzRobot::on_scan(ConstSonarStampedPtr &msg)
 void
 GzRobot::on_sound(ConstIntPtr &msg)
 {
-    // 0, 1, 2, 3
-    auto error = (rand() % 3);
-    int noise_error = 0;
-    switch(error)
-    {
-        case 0:
-            break;
-        case 1:
-            noise_error = 1;
-            break;
-        case 2:
-            noise_error = -1;
-            break;
-    }
 
-    this->noise = msg->data() + noise_error;
+    this->noise = msg->data();
     this->on_update(this);
 }
 
@@ -227,6 +213,16 @@ GzRobot::get_robot_theta() {
   return this->pos_t;
 }
 
+double
+GzRobot::get_robot_x() {
+  return this->pos_x;
+}
+
+double
+GzRobot::get_robot_y() {
+  return this->pos_y;
+}
+
 void
 GzRobot::on_pose(ConstPoseStampedPtr &msg)
 {
@@ -235,8 +231,8 @@ GzRobot::on_pose(ConstPoseStampedPtr &msg)
 
     auto pos = msg->pose().position();
     // no x and y error
-    this->pos_x = pos.x() + x_error;
-    this->pos_y = pos.y() + y_error;
+    this->pos_x = pos.x();
+    this->pos_y = pos.y();
 
     auto rot = msg->pose().orientation();
     ignition::math::Quaternion<double> qrot(rot.w(), rot.x(), rot.y(), rot.z());
