@@ -110,10 +110,10 @@ callback(Robot* robot)
 	}
 	else*/
 
-	currentsound = 8;
-	maxsound = 9 ;
+	// currentsound = 8;
+	// maxsound = 9 ;
 //	lastdir = "forward";
-	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t << 
+	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t <<
 	" Last Dir " << lastdir << endl;
 //	robot->set_vel(2,-2);
 
@@ -121,7 +121,7 @@ callback(Robot* robot)
     	 //	heading = robot->get_robot_theta();
 
     	if (currentsound >= maxsound) {
-			 robot->set_vel(2, 2);
+			 robot->set_vel(3, 3);
 			 maxsound= currentsound;
 		}
 
@@ -129,18 +129,18 @@ callback(Robot* robot)
 			turning =  true ;
 			if(abs(pos_t) > 2.4){
 				spacecounter = 0;
-				robot->set_vel(2, 2);
+				robot->set_vel(3, 3);
 				lastdir = "backward";
 			//	lastsound= currentsound;
 			}
 			else{
 				if (spacecounter ==0)
                                 {
-                                robot->set_vel(2, 2);
+                                robot->set_vel(3, 3);
                                 spacecounter++;
 
                                 } else {
-                                robot->set_vel(2, -2.5);
+                                robot->set_vel(4, -3.5);
                                 }
 
 
@@ -150,19 +150,19 @@ callback(Robot* robot)
 		}
 		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
 			if(pos_t > 1.4 && pos_t < 1.7) {
-				robot->set_vel(2, 2);
+				robot->set_vel(3, 3);
 				lastdir = "left";
 			//	lastsound= currentsound;
 				spacecounter = 0;
 			}
-			else{ 
+			else{
 				if (spacecounter <=0)
 				{
-				robot->set_vel(2, 2);
+				robot->set_vel(3, 3);
 				spacecounter++;
-				
+
 				} else {
-				robot->set_vel(2.5,-2.5);
+				robot->set_vel(3.5,-3.5);
 				}
 				}
 
@@ -170,7 +170,7 @@ callback(Robot* robot)
 		}
 		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
 			if(pos_t < -1.25 && pos_t > -1.75) {
-				robot->set_vel(2, 2);
+				robot->set_vel(3, 3);
 				lastdir = "right";
 			//	lastsound= currentsound;
 				spacecounter = 0;
@@ -178,31 +178,31 @@ callback(Robot* robot)
 			else{
 			   if (spacecounter <=1)
                                 {
-                                robot->set_vel(2, 2);
+                                robot->set_vel(3, 3);
                                 spacecounter++;
 
                                 } else {
-                                robot->set_vel(-2.5, 2.5);
+                                robot->set_vel(-3.5, 3.5);
                                 }
-                                }			
-			
-			
+                                }
+
+
 		}
 		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
 			turning =  true ;
 			if(abs(pos_t) < 1){
-				robot->set_vel(2, 2);
+				robot->set_vel(3, 3);
 				lastdir = "backward";
 			//	lastsound= currentsound;
 
 			}
 			else{
-				robot->set_vel(-2.5,2.5);}
+				robot->set_vel(-3.5,3.5);}
 
 		}
 		else {
 			cout << "Going Straight No Condition Met" <<endl;
-			robot->set_vel(2 , 2);
+			robot->set_vel(3 , 3);
 		}
 	}
     	else if(linestatus==1){
@@ -210,12 +210,12 @@ callback(Robot* robot)
     		robot->set_vel(-1.5,2);
     	}else if(linestatus==2){
     		//If On Left Side Of Line Turn Right
-    		robot->set_vel(2,-1.5);
+    		robot->set_vel(3,-2.5);
     	}else{
     		//If On Line Go Straight
 		cout << "Going Straight On Line" <<endl;
-    		robot->set_vel(2,2);
-		
+    		robot->set_vel(3,3);
+
     	}
 
 	return;
