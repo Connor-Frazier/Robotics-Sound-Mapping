@@ -112,7 +112,7 @@ callback(Robot* robot)
 
 	currentsound = 8;
 	maxsound = 9 ;
-	lastdir = "forward";
+//	lastdir = "forward";
 	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t << 
 	" Last Dir " << lastdir << endl;
 //	robot->set_vel(2,-2);
@@ -127,11 +127,11 @@ callback(Robot* robot)
 
 		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
 			turning =  true ;
-			if(abs(pos_t) > 2.3){
+			if(abs(pos_t) > 2.4){
 				spacecounter = 0;
 				robot->set_vel(2, 2);
 				lastdir = "backward";
-				lastsound= currentsound;
+			//	lastsound= currentsound;
 			}
 			else{
 				if (spacecounter ==0)
@@ -149,10 +149,10 @@ callback(Robot* robot)
 
 		}
 		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
-			if(pos_t > 1.25 && pos_t < 1.75) {
+			if(pos_t > 1.10 && pos_t < 1.3) {
 				robot->set_vel(2, 2);
 				lastdir = "left";
-				lastsound= currentsound;
+			//	lastsound= currentsound;
 				spacecounter = 0;
 			}
 			else{ 
@@ -162,7 +162,7 @@ callback(Robot* robot)
 				spacecounter++;
 				
 				} else {
-				robot->set_vel(2, -2.5);
+				robot->set_vel(-2.5, 2);
 				}
 				}
 
@@ -172,11 +172,11 @@ callback(Robot* robot)
 			if(pos_t < -1.25 && pos_t > -1.75) {
 				robot->set_vel(2, 2);
 				lastdir = "right";
-				lastsound= currentsound;
+			//	lastsound= currentsound;
 				spacecounter = 0;
 			}
 			else{
-			   if (spacecounter ==0)
+			   if (spacecounter <=1)
                                 {
                                 robot->set_vel(2, 2);
                                 spacecounter++;
@@ -193,7 +193,7 @@ callback(Robot* robot)
 			if(abs(pos_t) < 1){
 				robot->set_vel(2, 2);
 				lastdir = "backward";
-				lastsound= currentsound;
+			//	lastsound= currentsound;
 
 			}
 			else{
@@ -201,18 +201,21 @@ callback(Robot* robot)
 
 		}
 		else {
+			cout << "Going Straight No Condition Met" <<endl;
 			robot->set_vel(2 , 2);
 		}
 	}
     	else if(linestatus==1){
     		//If On Right Side Of Line Turn Left
-    		robot->set_vel(1.5,2);
+    		robot->set_vel(-1.5,2);
     	}else if(linestatus==2){
     		//If On Left Side Of Line Turn Right
-    		robot->set_vel(2,1.5);
+    		robot->set_vel(2,-1.5);
     	}else{
     		//If On Line Go Straight
+		cout << "Going Straight On Line" <<endl;
     		robot->set_vel(2,2);
+		
     	}
 
 	return;

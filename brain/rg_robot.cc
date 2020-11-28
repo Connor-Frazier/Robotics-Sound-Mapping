@@ -23,7 +23,7 @@ double calls = 0;
 RgRobot::RgRobot(int argc, char* argv[], void (*cb)(Robot*))
     : on_update(cb)
 {
-    create_robot_connection("/dev/ttyUSB1");
+    create_robot_connection("/dev/ttyUSB0");
 }
 
 RgRobot::~RgRobot()
