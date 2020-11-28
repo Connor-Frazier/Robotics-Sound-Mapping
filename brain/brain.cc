@@ -81,24 +81,29 @@ callback(Robot* robot)
 		}
 
 		// Case: we're going in the wrong "forward" direction
-		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
+		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound)
+		{
 			turning =  true ;
-			if(abs(pos_t) > 3.0){
+			if(abs(pos_t) > 3.0)
+			{
 				robot->set_vel(2, 2);
 				lastdir = "backward";
 				lastsound= currentsound;
 			}
-			else{
-				robot->set_vel(-1.5, 1.5);}
+			else
+			{
+				robot->set_vel(-1.5, 1.5);
+			}
 
 		}
 
 		// Case: we're going in the wrong "backward" direction
-		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
-			if(pos_t > 1.25 && pos_t < 1.75) {
+		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound)
+		{
+			if(abs(pos_t) > 1.25 && abs(pos_t) < 2.2) {
 				robot->set_vel(2, 2);
 				lastdir = "left";
-				lastsound= currentsound;
+				lastsound = currentsound;
 
 			}
 			else
@@ -110,8 +115,10 @@ callback(Robot* robot)
 		}
 
 		// Case: we're going in the wrong "left" direction (relative to start)
-		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
-			if(pos_t < -1.25 && pos_t > -1.75) {
+		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound)
+		{
+			if(pos_t < -1.25 && pos_t > -2.3)
+			{
 				robot->set_vel(2, 2);
 				lastdir = "right";
 				lastsound= currentsound;
@@ -123,32 +130,39 @@ callback(Robot* robot)
 		}
 
 		// Case: we're going in the wrong "right" direction (relative to start)
-		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
+		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound )
+		{
 			turning =  true ;
-			if(abs(pos_t) < 1){
+			if (abs(pos_t) < 1)
+			{
 				robot->set_vel(2, 2);
 				lastdir = "backward";
-				lastsound= currentsound;
+				lastsound = currentsound;
 
 			}
-			else {
+			else
+			{
 				robot->set_vel(-1, 1);
 			}
 		}
-		else {
+		else
+		{
 			robot->set_vel(2, 2);
 
 		}
 	}
-	else if(robot->get_line_status() == 1) {
+	else if (robot->get_line_status() == 1)
+	{
 		// 1 is the left sensor if facing forward
-		robot->set_vel(-1, 1);
+		robot->set_vel(-1.5, 1.5);
 	}
-	else if(robot->get_line_status() == 2) {
+	else if(robot->get_line_status() == 2)
+	{
 		// 2 is the right sensor if facing forward
-		robot->set_vel(1, -1);
+		robot->set_vel(1.5, -1.5);
 	}
-	else {
+	else
+	{
 		//If On Line Go Straight
 		robot->set_vel(1.0, 1.0);
 	}
