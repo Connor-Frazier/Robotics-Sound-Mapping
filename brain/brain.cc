@@ -133,7 +133,7 @@ callback(Robot* robot)
 		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound )
 		{
 			turning =  true ;
-			if (abs(pos_t) < 1)
+			if (pos_t > 1.5)
 			{
 				robot->set_vel(2, 2);
 				lastdir = "backward";
@@ -142,7 +142,7 @@ callback(Robot* robot)
 			}
 			else
 			{
-				robot->set_vel(-1, 1);
+				robot->set_vel(-1.5, 1.5);
 			}
 		}
 		else
