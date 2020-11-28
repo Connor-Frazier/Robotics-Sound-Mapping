@@ -26,7 +26,7 @@ double pos_x;
 double pos_y;
 
 void mapviz(int x, int y, int sound ){
-	cout << "Map Viz "<<y<< "," <<x << endl;
+	//cout << "Map Viz "<<y<< "," <<x << endl;
 	gfx_color(0 , 255  /*sound*4.25*/ , 0);
 	for(int t = x*10-5; t <= x*10+5; t++ ){
 		for(int z = y*10-5; z<= y*10+5; z++ ){
@@ -49,11 +49,11 @@ int AVERAGED = 0;
 void
 callback(Robot* robot)
 {
-	cout << robot->get_noise_sensor() <<" "  << robot->get_robot_theta() << " "<< lastdir <<  endl;
+	//cout << robot->get_noise_sensor() <<" "  << robot->get_robot_theta() << " "<< lastdir <<  endl;
 	pos_t = robot->get_robot_theta();
 	pos_x = robot->get_robot_x();
 	pos_y = robot->get_robot_y();
-	cout << pos_x <<" "  << pos_y << " xy working?  "<< lastdir <<  endl;
+	//cout << pos_x <<" "  << pos_y << " xy working?  "<< lastdir <<  endl;
 	//mapviz (round(pos_x),round(pos_y));
 
 	int intx = round(pos_x);
@@ -70,63 +70,71 @@ callback(Robot* robot)
   	INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
 
   	currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
- 	cout << currentsound  <<  endl;
+ 	cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound << " || Lastdir: " << lastdir <<  endl;
 
 	if(robot->get_line_status()==0){
 
+		// Case: we're going in the right direction
     	if (currentsound >= maxsound) {
-			robot->set_vel(4, 4);
+			robot->set_vel(2, 2);
 			maxsound= currentsound;
 		}
 
+		// Case: we're going in the wrong "forward" direction
 		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
 			turning =  true ;
-			if(abs(pos_t) > 2.5){
-				robot->set_vel(4, 4);
+			if(abs(pos_t) > 3.08){
+				robot->set_vel(2, 2);
 				lastdir = "backward";
 				lastsound= currentsound;
 			}
 			else{
-				robot->set_vel(-4, 4);}
+				robot->set_vel(-1, 1);}
 
 		}
+
+		// Case: we're going in the wrong "backward" direction
 		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
 			if(pos_t > 1.25 && pos_t < 1.75) {
-				robot->set_vel(4, 4);
+				robot->set_vel(2, 2);
 				lastdir = "left";
 				lastsound= currentsound;
 
 			}
 			else{
-				robot->set_vel(-4, 4);}
+				robot->set_vel(-1, 1);}
 
 
 		}
+
+		// Case: we're going in the wrong "left" direction (relative to start)
 		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
 			if(pos_t < -1.25 && pos_t > -1.75) {
-				robot->set_vel(4, 4);
+				robot->set_vel(2, 2);
 				lastdir = "right";
 				lastsound= currentsound;
 
 			}
 			else {
-				robot->set_vel(-4, 4);
+				robot->set_vel(-1, 1);
 			}
 		}
+
+		// Case: we're going in the wrong "right" direction (relative to start)
 		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
 			turning =  true ;
 			if(abs(pos_t) < 1){
-				robot->set_vel(4, 4);
+				robot->set_vel(2, 2);
 				lastdir = "backward";
 				lastsound= currentsound;
 
 			}
 			else {
-				robot->set_vel(-4, 4);
+				robot->set_vel(-1, 1);
 			}
 		}
 		else {
-			robot->set_vel(4, 4);
+			robot->set_vel(2, 2);
 
 		}
 	}
