@@ -149,20 +149,20 @@ callback(Robot* robot)
 
 		}
 		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
-			if(pos_t > 1.10 && pos_t < 1.3) {
+			if(pos_t > 1.4 && pos_t < 1.7) {
 				robot->set_vel(2, 2);
 				lastdir = "left";
 			//	lastsound= currentsound;
 				spacecounter = 0;
 			}
 			else{ 
-				if (spacecounter ==0)
+				if (spacecounter <=0)
 				{
 				robot->set_vel(2, 2);
 				spacecounter++;
 				
 				} else {
-				robot->set_vel(-2.5, 2);
+				robot->set_vel(2.5,-2.5);
 				}
 				}
 
