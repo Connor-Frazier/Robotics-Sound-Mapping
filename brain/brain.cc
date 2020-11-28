@@ -70,12 +70,12 @@ callback(Robot* robot)
   	INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
 
   	currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
- 	cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound << " || Lastdir: " << lastdir <<  endl;
+ 	cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound << " || Lastdir: " << lastdir <<  " || Heading: " << pos_t << endl;
 
-	if(robot->get_line_status()==0){
+	if(robot->get_line_status() == 0){
 
 		// Case: we're going in the right direction
-    	if (currentsound >= maxsound) {
+    	if (currentsound >= maxsound && lastdir != "backward") {
 			robot->set_vel(2, 2);
 			maxsound= currentsound;
 		}
@@ -83,13 +83,13 @@ callback(Robot* robot)
 		// Case: we're going in the wrong "forward" direction
 		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
 			turning =  true ;
-			if(abs(pos_t) > 3.08){
+			if(abs(pos_t) > 3.0){
 				robot->set_vel(2, 2);
 				lastdir = "backward";
 				lastsound= currentsound;
 			}
 			else{
-				robot->set_vel(-1, 1);}
+				robot->set_vel(-1.5, 1.5);}
 
 		}
 
@@ -101,8 +101,10 @@ callback(Robot* robot)
 				lastsound= currentsound;
 
 			}
-			else{
-				robot->set_vel(-1, 1);}
+			else
+			{
+				robot->set_vel(-1, 1);
+			}
 
 
 		}
@@ -138,17 +140,17 @@ callback(Robot* robot)
 
 		}
 	}
-	else if(robot->get_line_status()==1) {
-		//If On Right Side Of Line Turn Left
-		robot->set_vel(1.0,1.5);
+	else if(robot->get_line_status() == 1) {
+		// 1 is the left sensor if facing forward
+		robot->set_vel(-1, 1);
 	}
-	else if(robot->get_line_status()==2) {
-		//If On Left Side Of Line Turn Right
-		robot->set_vel(1.5,1.0);
+	else if(robot->get_line_status() == 2) {
+		// 2 is the right sensor if facing forward
+		robot->set_vel(1, -1);
 	}
 	else {
 		//If On Line Go Straight
-		robot->set_vel(1.5,1.5);
+		robot->set_vel(1.0, 1.0);
 	}
 
 	return;
