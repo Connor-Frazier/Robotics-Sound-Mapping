@@ -24,6 +24,7 @@ double pos_t;
 int stateCount;
 double pos_x;
 double pos_y;
+int spacecounter = 0;
 
 void  mapviz(int x, int y, int sound ){
 //	cout << "Map Viz "<<y<< "," <<x << endl;
@@ -111,9 +112,10 @@ callback(Robot* robot)
 
 	currentsound = 8;
 	maxsound = 9 ;
-	lastdir = "backward";
-	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t <<  endl;
-//	robot->set_vel(3,-3);
+	lastdir = "forward";
+	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t << 
+	" Last Dir " << lastdir << endl;
+//	robot->set_vel(2,-2);
 
 	if(linestatus==0){
     	 //	heading = robot->get_robot_theta();
@@ -125,13 +127,22 @@ callback(Robot* robot)
 
 		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
 			turning =  true ;
-			if(abs(pos_t) > 2.5){
-				robot->set_vel(3, 3);
+			if(abs(pos_t) > 2.3){
+				spacecounter = 0;
+				robot->set_vel(2, 2);
 				lastdir = "backward";
 				lastsound= currentsound;
 			}
 			else{
-				robot->set_vel(-3, 3);
+				if (spacecounter ==0)
+                                {
+                                robot->set_vel(2, 2);
+                                spacecounter++;
+
+                                } else {
+                                robot->set_vel(2, -2.5);
+                                }
+
 
 
 				}
@@ -139,40 +150,58 @@ callback(Robot* robot)
 		}
 		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
 			if(pos_t > 1.25 && pos_t < 1.75) {
-				robot->set_vel(3, 3);
+				robot->set_vel(2, 2);
 				lastdir = "left";
 				lastsound= currentsound;
-
+				spacecounter = 0;
 			}
-			else{
-				robot->set_vel(3, -3);}
+			else{ 
+				if (spacecounter ==0)
+				{
+				robot->set_vel(2, 2);
+				spacecounter++;
+				
+				} else {
+				robot->set_vel(2, -2.5);
+				}
+				}
 
 
 		}
 		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
 			if(pos_t < -1.25 && pos_t > -1.75) {
-				robot->set_vel(1.75, 1.75);
+				robot->set_vel(2, 2);
 				lastdir = "right";
 				lastsound= currentsound;
-
+				spacecounter = 0;
 			}
 			else{
-				robot->set_vel(-1.75, 1.75);}
+			   if (spacecounter ==0)
+                                {
+                                robot->set_vel(2, 2);
+                                spacecounter++;
+
+                                } else {
+                                robot->set_vel(-2.5, 2.5);
+                                }
+                                }			
+			
+			
 		}
 		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
 			turning =  true ;
 			if(abs(pos_t) < 1){
-				robot->set_vel(1.75, 1.75);
+				robot->set_vel(2, 2);
 				lastdir = "backward";
 				lastsound= currentsound;
 
 			}
 			else{
-				robot->set_vel(-1.75, 1.75);}
+				robot->set_vel(-2.5,2.5);}
 
 		}
 		else {
-			robot->set_vel(1.75, 1.75);
+			robot->set_vel(2 , 2);
 		}
 	}
     	else if(linestatus==1){
