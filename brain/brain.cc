@@ -26,12 +26,10 @@ double pos_y;
 int spacecounter = 0;
 
 void  mapviz(int x, int y, int sound ){
-//	cout << "Map Viz "<<y<< "," <<x << endl;
 	gfx_color(0 , 255  /*sound*4.25*/ , 0);
 	for(int t = x*10-5; t <= x*10+5; t++ ){
 		for(int z = y*10-5; z<= y*10+5; z++ ){
 			gfx_point(z,t);
-	//		cout << "Map Viz "<<y<< "," <<x << endl;
 
 		}}
 }
@@ -78,7 +76,11 @@ callback(Robot* robot)
 	Line Status == 0, robot is in intersection.
 	Line Status == 1, robot is on line edge.
 	Line Status  == 2, robot is on line edge.
-	Line Statis ==3, robot is directly above line.*/
+	Line Statis ==3, robot is directly above line.
+	Movement Logic (Sound):  
+	If the sound is getting louder or the sound is equal to the loudest it has been go forward at the intersection.
+	If the sound is getting quieter turn or trun around at the next intersection depending on the previous action. 
+	*/
 	
 	if(linestatus==0){
 
