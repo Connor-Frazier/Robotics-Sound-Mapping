@@ -15,11 +15,16 @@ using std::endl;
 using namespace std;
 
 map<pair<int, int>,int>occgrid;
+map<pair<int, int>,vector<int>>intersections;
+pair<int, int> lastIntersection = make_pair(-2, 3); // this is where we start
 
 int maxsound = 0;
 bool turning = false ;
 string lastdir = "forward";
 int lastsound = 0;
+int lastchoice = 0;
+bool online = true;
+bool firstIter = true;
 double pos_t;
 int stateCount;
 double pos_x;
@@ -45,10 +50,15 @@ int READINGS[WINDOW_SIZE];
 int AVERAGED = 0;
 
 
-
 void
 callback(Robot* robot)
 {
+	if (firstIter)
+	{
+		vector<int> first = {0,0,0,0};
+		intersections.insert(make_pair(lastIntersection, first));
+		firstIter = false;
+	}
 	//cout << robot->get_noise_sensor() <<" "  << robot->get_robot_theta() << " "<< lastdir <<  endl;
 	pos_t = robot->get_robot_theta();
 	pos_x = robot->get_robot_x();
@@ -70,103 +80,171 @@ callback(Robot* robot)
   	INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
 
   	currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
- 	cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound << " || Lastdir: " << lastdir <<  " || Heading: " << pos_t << endl;
+	if (currentsound > maxsound)
+	{
+		maxsound = currentsound;
+	}
+
+ 	//cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound <<  " || Heading: " << pos_t << " || Position: (" << intx << ", " << inty << ")" << endl;
+
 
 	if(robot->get_line_status() == 0){
 
-		// Case: we're going in the right direction
-    	if (currentsound >= maxsound && lastdir != "backward") {
-			robot->set_vel(2, 2);
-			maxsound= currentsound;
+		pair<int, int> position = make_pair(intx, inty);
+		//cout << "Position: " << intx << ", " << inty << endl;
+
+		if (intersections.find(position) == intersections.end())
+		{
+			// not found
+			cout << "New intersection: " << position.first << ", " << position.second << endl;
+			vector<int> dirs = {0, 0, 0, 0};
+			intersections.insert(make_pair(position, dirs));
 		}
 
-		// Case: we're going in the wrong "forward" direction
-		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound)
+		// handle relative sound logic ONLY when we are NEWLY off a line
+		if (online && pos_t != 0)
 		{
-			turning =  true ;
-			if(abs(pos_t) > 3.0)
+			if (intx == 0 && inty == 0)
 			{
-				robot->set_vel(2, 2);
-				lastdir = "backward";
-				lastsound= currentsound;
+				return;
+			}
+			cout << "Updating past line" << endl;
+			cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound <<  " || Heading: " << pos_t << " || Position: (" << intx << ", " << inty << ")" << endl;
+			cout << "Position: " << intx << ", " << inty << endl;
+
+			vector<int> last = intersections[lastIntersection];
+			vector<int> curr = intersections[position];
+			int score;
+			if (currentsound < lastsound)
+			{
+				// Case: we've gone in the wrong direction
+				score = -1;
+			}
+			else if (currentsound > lastsound)
+			{
+				// Case: we've gone in the right direction
+				score = 1;
 			}
 			else
 			{
+				// Case: error case, really, no change in sound
+				score = 0;
+			}
+			last[lastchoice] = score;
+			intersections[lastIntersection] = last;
+
+			// Choose how to update the current location
+			int currscore = score * -1;
+			if (lastchoice == 0)
+			{
+				// Case: update down from curr
+				curr[1] = currscore;
+			}
+			else if (lastchoice == 1)
+			{
+				// Case: update up of curr
+				curr[0] = currscore;
+			}
+			else if (lastchoice == 2)
+			{
+				// Case: update right of curr
+				curr[3] = currscore;
+			}
+			else if (lastchoice == 3)
+			{
+				// Case: update left of curr
+				curr[2] = currscore;
+			}
+			intersections[position] = curr;
+
+			cout << "Last intersection: " << lastIntersection.first << ", " << lastIntersection.second << endl;
+			cout << "Lastchoice: " << lastchoice << endl;
+			cout << "Updated last: " << intersections[lastIntersection][0] << intersections[lastIntersection][1] << intersections[lastIntersection][2] << intersections[lastIntersection][3] << endl;
+
+			cout << "Updated curr: " << intersections[position][0] << intersections[position][1] << intersections[position][2] << intersections[position][3] << endl;
+			cout << "==================================" << endl;
+		}
+		online = false;
+		lastIntersection = position;
+
+		// Now handle intersection logic
+		vector<int> dirs = intersections[position];
+		int up = dirs[0];
+		int down = dirs[1];
+		int left = dirs[2];
+		int right = dirs[3];
+
+		//cout << "Directions: " << up << down << left << right << endl;
+
+		if (up >= down && up >= left && up >= right)
+		{
+			// Case: up is the best guess direction
+			//cout << "Going UP" << endl;
+			if (pos_t < 0.1 && pos_t > -0.1)
+			{
+				// Case: we're at the right heading
+				robot->set_vel(1.5, 1.5);
+			}
+			else
+			{
+				// Case: we're not at the right heading
 				robot->set_vel(-1.5, 1.5);
 			}
-
+			lastIntersection = position;
+			lastsound = currentsound;
+			lastchoice = 0;
 		}
-
-		// Case: we're going in the wrong "backward" direction
-		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound)
+		else if (down >= up && down >= left && down >= right)
 		{
-			if(abs(pos_t) > 1.25 && abs(pos_t) < 2.2) {
-				robot->set_vel(2, 2);
-				lastdir = "left";
-				lastsound = currentsound;
-
+			// Case: down is the best guess direction
+			// Case: up is the best guess direction
+			//cout << "Going UP" << endl;
+			if (abs(pos_t) > 3)
+			{
+				// Case: we're at the right heading
+				robot->set_vel(1.5, 1.5);
 			}
 			else
 			{
-				robot->set_vel(-1, 1);
-			}
-
-
-		}
-
-		// Case: we're going in the wrong "left" direction (relative to start)
-		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound)
-		{
-			if(pos_t < -1.25 && pos_t > -2.3)
-			{
-				robot->set_vel(2, 2);
-				lastdir = "right";
-				lastsound= currentsound;
-
-			}
-			else {
-				robot->set_vel(-1, 1);
-			}
-		}
-
-		// Case: we're going in the wrong "right" direction (relative to start)
-		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound )
-		{
-			turning =  true ;
-			if (pos_t > 1.5)
-			{
-				robot->set_vel(2, 2);
-				lastdir = "backward";
-				lastsound = currentsound;
-
-			}
-			else
-			{
+				// Case: we're not at the right heading
 				robot->set_vel(-1.5, 1.5);
 			}
+			lastIntersection = position;
+			lastsound = currentsound;
+			lastchoice = 1;
 		}
-		else
+		/*
+		else if ()
 		{
-			robot->set_vel(2, 2);
-
+			// Case: left is the best guess direction
 		}
+		else if ()
+		{
+			// Case: right is the best guess direction
+		}
+		*/
+
 	}
 	else if (robot->get_line_status() == 1)
 	{
 		// 1 is the left sensor if facing forward
+		online = true;
 		robot->set_vel(-1.5, 1.5);
 	}
 	else if(robot->get_line_status() == 2)
 	{
+		online = true;
 		// 2 is the right sensor if facing forward
 		robot->set_vel(1.5, -1.5);
 	}
 	else
 	{
 		//If On Line Go Straight
+		online = true;
 		robot->set_vel(1.0, 1.0);
 	}
 
+	//cout << "==================================" << endl;
 	return;
 }
 
