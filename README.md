@@ -14,6 +14,17 @@ Proposed Solution:
   The control program used the academic papers (linked below) “Algorithm for Line Follower Robots to Follow Critical Paths with Minimum Number of Sensors” and “Auditory Occupancy Grids with a Mobile Robot” to fulfill the graduate student requirement. Techniques described in those papers were implemented directly and/or in part for the solution control program. Otherwise the code in this project was originally created with the help of the attributions listed below. There were no third party libraries directly used in this project.
 ## Instructions:
 1. Set up Arduino IDE and the Mbot Ranger on you computer using these [instructions.](https://github.com/wirthdrewneu/RobotRangerSetUp)
+2. Clone or download this project repo 
+```terminal
+$ git clone https://github.com/nbock/cs5335-nm.git
+```
+3. With the ranger connected upload ranger_serial_firmware.ino using Arduino IDE
+4. Using the terminal run Make, navigate into brain, use the rg_brain executable for the physical robot and gz_brain executable for the Gazebo robot.
+```terminal
+$ make 
+$ ./rg_brain
+$ ./gz_brain
+```
 ## Physical Robot World Examples:
 ![](physical-maps/Frazier-Ranger-Tap-Map.jpeg)
 ![](physical-maps/Pashkowsky-Ranger-Map.jpg)
