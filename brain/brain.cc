@@ -61,12 +61,10 @@ callback(Robot* robot)
 		sounds.insert(make_pair(lastIntersection, 0));
 		firstIter = false;
 	}
-	//cout << robot->get_noise_sensor() <<" "  << robot->get_robot_theta() << " "<< lastdir <<  endl;
+
 	pos_t = robot->get_robot_theta();
 	pos_x = robot->get_robot_x();
 	pos_y = robot->get_robot_y();
-	//cout << pos_x <<" "  << pos_y << " xy working?  "<< lastdir <<  endl;
-	//mapviz (round(pos_x),round(pos_y));
 
 	int intx = round(pos_x);
 	int inty = round(pos_y);
@@ -74,6 +72,7 @@ callback(Robot* robot)
 	mapviz(round(pos_x),round(pos_y),currentsound);
 	occgrid.insert(make_pair(make_pair(intx,inty),currentsound));
 
+	//cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << endl;
 
 	SUM = SUM - READINGS[INDEX];       // Remove the oldest entry from the sum
 	VALUE = currentsound;        // Read the next sensor value
@@ -128,6 +127,7 @@ callback(Robot* robot)
 
 			vector<int> last = intersections[lastIntersection];
 			vector<int> curr = intersections[position];
+
 			cout << "Last before update: " << last[0] << last[1] << last[2] << last[3] << endl;
 			cout << "Curr before update: " << curr[0] << curr[1] << curr[2] << curr[3] << endl;
 
