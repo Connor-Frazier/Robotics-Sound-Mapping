@@ -18,33 +18,33 @@ This project explored having a line follower robot autonomously find its way thr
 
 3. What did each team member do to contribute to the project?
 
-Nolan Bock: The gazebo simulation including the world, sensor plugins, and other simulation details.
+Nolan Bock: The gazebo simulation including the world, sensor plugins, simulation control experimentation, and other simulation details.
 
 Connor Frazier: The arduino firmware, mBot Ranger Command Library, and rg_robot/gz_robot classes implementation and build.
 
-Matthew Pashkowsky: The line following algorithm.
+Matthew Pashkowsky: The original line following algorithm.
 
-Andrew Wirth: The sound occupancy grid mapping algorithm and updated line follow algorithm.
+Andrew Wirth: The sound occupancy grid mapping algorithm, the physical world map, and the updated line follow algorithm.
 
 
 
 4. What is the URL of your git repository with all your project code and your
 presentation notes / slides?
 
-URL: https://github.com/nbock/cs5335-nm
-Slides: https://docs.google.com/presentation/d/1IX4yRM8vdsn6yNLQJyDlAK1K5UeJtU3IBiFPc6uufII/edit#slide=id.gacf5d0ac98_0_80
+Github URL: https://github.com/nbock/cs5335-nm
+Presentation slides: https://docs.google.com/presentation/d/1IX4yRM8vdsn6yNLQJyDlAK1K5UeJtU3IBiFPc6uufII/edit#slide=id.gacf5d0ac98_0_80
 
 
 5. Which component do you think was the most innately difficult to build?
 
-The microphone control plugin was the most innately difficult to build because of all of its dependencies and how sound acts in the real world. Sound degradation in the real world follows the inverse square law, which took a bit of research to understand and implement correctly in the sim. Additionally, creating a completely new plugin and inserting it into an existing model is a fairly difficult task that is sparsely documented by Gazebo, so actually stitching together the workings of the tank_control plugin and the microphone control plugin was difficult. Finally, allowing for the sim to have multiple "competing" sounds means that we need each location to potentially have multiple sound sources acting on it and we need to plugin to decide what the "dominant" sound is and at what decibel. This at of finding a dominant sound was very difficult because it meant we always needed an idea of what sounds are acting on what locations. Once we'd completed all of those steps, we realized that the plugin has floating point sound representations whereas the Ranger bot only has integral sound representations, so we had to do some work to convert from floats to integers, as well
+The microphone control plugin was the most innately difficult to build because of all of its dependencies and how sound acts in the real world. Sound degradation in the real world follows the inverse square law, which took a bit of research to understand and implement correctly in the sim. Additionally, creating a completely new plugin and inserting it into an existing model is a fairly difficult task that is sparsely documented by Gazebo, so actually stitching together the workings of the tank_control plugin and the microphone control plugin was difficult. Finally, allowing for the sim to have multiple "competing" sounds means that we need each location to potentially have multiple sound sources acting on it and we need the plugin to decide what the "dominant" sound is and at what decibel. The act of finding a dominant sound was very difficult because it meant we always needed an idea of what sounds are acting on what locations. Once we'd completed all of those steps, we realized that the plugin has floating point sound representations whereas the Ranger bot only has integral sound representations, so we had to do some work to convert from floats to integers, as well
 
 
 6. What's the URL to your Demo video?
-
+TODO
 
 7. What's the URL to your Presentation video?
-
+TODO
 
 8. Did you share any generally useful example code with other teams to try for
 a bonus point? If so, what's the Git repo and Piazza post URLs?
