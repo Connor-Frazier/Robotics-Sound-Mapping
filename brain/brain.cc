@@ -31,7 +31,8 @@ void  mapviz(int x, int y, int sound ){
         for(int z = y*10-5; z<= y*10+5; z++ ){
             gfx_point(z,t);
 
-        }}
+        }
+    }
 }
 int tcounter = 0;
 
@@ -84,7 +85,7 @@ callback(Robot* robot)
 
     if(linestatus==0){
 
-    if (currentsound >= maxsound) {
+        if (currentsound >= maxsound) {
             robot->set_vel(3, 3);
             maxsound= currentsound;
         } else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound) {
@@ -95,19 +96,19 @@ callback(Robot* robot)
                 lastdir = "backward";
             } else {
                 if (spacecounter ==0) {
-          robot->set_vel(3, 3);
-          spacecounter++;
+                    robot->set_vel(3, 3);
+                    spacecounter++;
 
-        } else {
-            robot->set_vel(4, -3.5);
-        }
+                } else {
+                    robot->set_vel(4, -3.5);
+                }
             }
         } else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
             if(pos_t > 1.4 && pos_t < 1.7) {
                 robot->set_vel(3, 3);
                 lastdir = "left";
                 spacecounter = 0;
-            } else{
+            } else {
                 if (spacecounter <=0) {
                     robot->set_vel(3, 3);
                     spacecounter++;
@@ -122,20 +123,19 @@ callback(Robot* robot)
                 lastdir = "right";
                 spacecounter = 0;
             } else{
-              if (spacecounter <=1) {
-          robot->set_vel(3, 3);
-          spacecounter++;
-        } else {
-            robot->set_vel(-3.5, 3.5);
-        }
-      }
+                if (spacecounter <=1) {
+                    robot->set_vel(3, 3);
+                    spacecounter++;
+                } else {
+                    robot->set_vel(-3.5, 3.5);
+                }
+            }
         } else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
             turning =  true ;
             if(abs(pos_t) < 1){
                 robot->set_vel(3, 3);
                 lastdir = "backward";
-            }
-            else{
+            } else{
                 robot->set_vel(-3.5,3.5);
             }
         } else {
@@ -143,16 +143,16 @@ callback(Robot* robot)
             robot->set_vel(3 , 3);
         }
     } else if(linestatus==1){
-    //If On Right Side Of Line Turn Left
-    robot->set_vel(-1.5,2);
-  } else if(linestatus==2){
-    //If On Left Side Of Line Turn Right
-    robot->set_vel(3,-2.5);
-  } else{
-    //If On Line Go Straight
+        //If On Right Side Of Line Turn Left
+        robot->set_vel(-1.5,2);
+    } else if(linestatus==2){
+        //If On Left Side Of Line Turn Right
+        robot->set_vel(3,-2.5);
+    } else{
+        //If On Line Go Straight
         cout << "Going Straight On Line" <<endl;
-    robot->set_vel(3,3);
-  }
+        robot->set_vel(3,3);
+    } 
 
     return;
 }
