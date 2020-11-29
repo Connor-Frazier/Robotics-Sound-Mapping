@@ -16,6 +16,12 @@ class Robot {
     virtual double get_robot_theta() = 0;
     virtual void set_vel(double lvel, double rvel) = 0;
     virtual void do_stuff() = 0;
+    virtual double get_robot_x() = 0;
+    virtual double get_robot_y() = 0;
+
+	
+
+
 };
 
 class GzRobot : public Robot {
@@ -39,6 +45,8 @@ class GzRobot : public Robot {
     int get_line_status();
     double get_noise_sensor();
     double get_robot_theta();
+    double get_robot_y();
+    double get_robot_x(); 
     void set_vel(double lvel, double rvel);
     void do_stuff();
 
@@ -67,6 +75,8 @@ class RgRobot : public Robot {
       double get_noise_sensor();
       void set_vel(double lvel, double rvel);
       double get_robot_theta();
+      double get_robot_y();
+      double get_robot_x();
       void do_stuff();
 
       void (*on_update)(Robot*);
