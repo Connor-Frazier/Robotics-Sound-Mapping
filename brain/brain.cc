@@ -9,7 +9,7 @@
 extern "C"{
 #include "gfx.c"
 }
-#define WINDOW_SIZE 15
+#define wind 15
 using std::cout;
 using std::endl;
 using namespace std;
@@ -40,7 +40,7 @@ int tcounter = 0;
 int ind= 0;
 int val = 0;
 int su = 0;
-int store[WINDOW_SIZE];
+int store[wind];
 int aved = 0;
 
 
