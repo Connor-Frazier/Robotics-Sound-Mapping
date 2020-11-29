@@ -1,4 +1,4 @@
-#Search Using Line Following and Sound
+# Search Using Line Following and Sound
 
 By Nolan Bock, Connor Frazier, Matthew Pashkowsky, Andrew Wirth
 
