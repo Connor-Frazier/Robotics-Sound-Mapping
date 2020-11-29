@@ -32,6 +32,7 @@ Andrew Wirth: The sound occupancy grid mapping algorithm and updated line follow
 presentation notes / slides?
 
 URL: https://github.com/nbock/cs5335-nm
+Slides: https://docs.google.com/presentation/d/1IX4yRM8vdsn6yNLQJyDlAK1K5UeJtU3IBiFPc6uufII/edit#slide=id.gacf5d0ac98_0_80
 
 
 5. Which component do you think was the most innately difficult to build?
