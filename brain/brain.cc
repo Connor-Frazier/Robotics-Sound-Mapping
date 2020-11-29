@@ -55,41 +55,39 @@ callback(Robot* robot)
 	int inty = round(pos_y);
 	int currentsound = robot->get_noise_sensor();
 	mapviz(round(pos_x),round(pos_y),currentsound);
-		
+
 	//Occupancy grid contain current sound heuristic.
 	occgrid.insert(make_pair(make_pair(intx,inty),currentsound));
 
 	// Sound Sensor Moving Average Logic
-	su = su - store[ind];      
-  	val = currentsound;      
-  	store[ind] = val;         
-  	su = su + val;                
-  	ind = (ind+1) % wind;   
+	su = su - store[ind];
+  	val = currentsound;
+  	store[ind] = val;
+  	su = su + val;
+  	ind = (ind+1) % wind;
 
-  	currentsound = su / wind;     
+  	currentsound = su / wind;
  	int linestatus = robot->get_line_status();
 
 	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t <<
 	" Last Dir " << lastdir << endl;
 
-	/*Movement Logic (Line Sensors):  
+	/*Movement Logic (Line Sensors):
 	Line Status == 0, robot is in intersection.
 	Line Status == 1, robot is on line edge.
 	Line Status  == 2, robot is on line edge.
 	Line Statis ==3, robot is directly above line.
-	Movement Logic (Sound):  
+	Movement Logic (Sound):
 	If the sound is getting louder or the sound is equal to the loudest it has been go forward at the intersection.
-	If the sound is getting quieter turn or trun around at the next intersection depending on the previous action. 
+	If the sound is getting quieter turn or trun around at the next intersection depending on the previous action.
 	*/
-	
+
 	if(linestatus==0){
 
-    	if (currentsound >= maxsound) {
-			 robot->set_vel(3, 3);
-			 maxsound= currentsound;
-			}
-
-		else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound  ) {
+  	if (currentsound >= maxsound) {
+			robot->set_vel(3, 3);
+			maxsound= currentsound;
+		} else if (currentsound < maxsound  && lastdir == "forward" && lastsound != currentsound) {
 			turning =  true ;
 			if(abs(pos_t) > 2.4){
 				spacecounter = 0;
@@ -103,10 +101,8 @@ callback(Robot* robot)
         } else {
         	robot->set_vel(4, -3.5);
         }
-
 			}
-		}
-		else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
+		} else if(currentsound <= maxsound && lastdir == "backward" &&  lastsound != currentsound ) {
 			if(pos_t > 1.4 && pos_t < 1.7) {
 				robot->set_vel(3, 3);
 				lastdir = "left";
@@ -120,23 +116,20 @@ callback(Robot* robot)
 					robot->set_vel(3.5,-3.5);
 				}
 			}
-		}
-		else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
+		} else if(currentsound <= maxsound && lastdir == "left" && lastsound != currentsound) {
 			if(pos_t < -1.25 && pos_t > -1.75) {
 				robot->set_vel(3, 3);
 				lastdir = "right";
 				spacecounter = 0;
 			} else{
-			   if (spacecounter <=1) {
-            robot->set_vel(3, 3);
-            spacecounter++;
-
-        	} else {
+			  if (spacecounter <=1) {
+          robot->set_vel(3, 3);
+          spacecounter++;
+        } else {
             robot->set_vel(-3.5, 3.5);
-          }
+        }
       }
-		}
-		else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
+		} else if (currentsound < maxsound  && lastdir == "right" && lastsound != currentsound ) {
 			turning =  true ;
 			if(abs(pos_t) < 1){
 				robot->set_vel(3, 3);
@@ -145,8 +138,7 @@ callback(Robot* robot)
 			else{
 				robot->set_vel(-3.5,3.5);
 			}
-		}
-		else {
+		} else {
 			cout << "Going Straight No Condition Met" <<endl;
 			robot->set_vel(3 , 3);
 		}
@@ -160,7 +152,6 @@ callback(Robot* robot)
     //If On Line Go Straight
 		cout << "Going Straight On Line" <<endl;
     robot->set_vel(3,3);
-
   }
 
 	return;
