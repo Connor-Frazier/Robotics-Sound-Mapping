@@ -175,7 +175,7 @@ main(int argc, char* argv[])
 	int xsize = 1000;
 	char c;
 
-/*	gfx_open(xsize,ysize,"Example Graphics Program");*/
+	gfx_open(xsize,ysize,"Sound Localization");*/
 
 	if(bname == "gz_brain") {
 		std::cout << "making robot: Gazebo mode" << '\n';
@@ -190,12 +190,12 @@ main(int argc, char* argv[])
 	sleep(2);
 
 	robot->do_stuff();
-	/*while(1) {
+	while(1) {
 		// Wait for the user to press a character.
 		c = gfx_wait();
 
 		// Quit if it is the letter q.
-		if(c=='q') break;}*/
+		if(c=='q') break;}
 	delete robot;
 	return 0;
 }
