@@ -37,11 +37,11 @@ void  mapviz(int x, int y, int sound ){
 }
 int tcounter = 0;
 
-int INDEX = 0;
-int VALUE = 0;
-int SUM = 0;
-int READINGS[WINDOW_SIZE];
-int AVERAGED = 0;
+int ind= 0;
+int val = 0;
+int su = 0;
+int store[WINDOW_SIZE];
+int aved = 0;
 
 
 
@@ -60,13 +60,13 @@ callback(Robot* robot)
 	occgrid.insert(make_pair(make_pair(intx,inty),currentsound));
 */
 
-	SUM = SUM - READINGS[INDEX];       // Remove the oldest entry from the sum
-  	VALUE = currentsound;        // Read the next sensor value
-  	READINGS[INDEX] = VALUE;           // Add the newest reading to the window
-  	SUM = SUM + VALUE;                 // Add the newest reading to the sum
-  	INDEX = (INDEX+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
+	su = su - store[ind];       // Remove the oldest entry from the sum
+  	val = currentsound;        // Read the next sensor value
+  	store[ind] = val;           // Add the newest reading to the window
+  	su = su + val;                 // Add the newest reading to the sum
+  	ind = (ind+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
 
-  	currentsound = SUM / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
+  	currentsound = su / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
  	int linestatus = robot->get_line_status();
 
 	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t <<
