@@ -18,7 +18,7 @@ Proposed Solution:
 ```terminal
 $ git clone https://github.com/nbock/cs5335-nm.git
 ```
-3. With the ranger connected upload ranger_serial_firmware.ino using Arduino IDE
+3. With the ranger connected upload ranger_serial_firmware.ino using Arduino IDE. IF there are errors, make sure board choice is Mega 2560 and the port is selected. Typically the port is dev/ttysUSB0 (the number at the end can be different. Linux recommended! For other operating systems, divers may be needed.
 4. Using the terminal run Make, navigate into brain, use the rg_brain executable for the physical robot and gz_brain executable for the Gazebo robot.
 ```terminal
 $ make 
