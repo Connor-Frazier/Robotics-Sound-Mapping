@@ -26,6 +26,8 @@ $ ./rg_brain
 $ ./gz_brain
 ```
 ## Physical Robot World Examples:
+  For the physical world try use thick lines and intersections about the width of the robot.
+
 ![](physical-maps/Frazier-Ranger-Tap-Map.jpeg)
 ![](physical-maps/Pashkowsky-Ranger-Map.jpg)
 ![](physical-maps/wirth-map.jpg)
