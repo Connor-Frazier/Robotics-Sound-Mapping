@@ -41,10 +41,10 @@ The microphone control plugin was the most innately difficult to build because o
 
 
 6. What's the URL to your Demo video?
-TODO
+https://drive.google.com/file/d/1Kw5TLVZXudLaTCxq0WHXkEMNu9rp7SYr/view?usp=sharing
 
 7. What's the URL to your Presentation video?
-TODO
+https://drive.google.com/file/d/1Wa93xJfrWOANL7nQRX-Ahl0HcT9Ske2j/view?usp=sharing
 
 8. Did you share any generally useful example code with other teams to try for
 a bonus point? If so, what's the Git repo and Piazza post URLs?
