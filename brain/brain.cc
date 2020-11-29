@@ -15,6 +15,7 @@ using std::endl;
 using namespace std;
 
 map<pair<int, int>,int>occgrid;
+map<pair<int, int>,int>sounds;
 map<pair<int, int>,vector<int>>intersections;
 pair<int, int> lastIntersection = make_pair(-2, 3); // this is where we start
 
@@ -57,6 +58,7 @@ callback(Robot* robot)
 	{
 		vector<int> first = {0,0,0,0};
 		intersections.insert(make_pair(lastIntersection, first));
+		sounds.insert(make_pair(lastIntersection, 0));
 		firstIter = false;
 	}
 	//cout << robot->get_noise_sensor() <<" "  << robot->get_robot_theta() << " "<< lastdir <<  endl;
@@ -91,11 +93,15 @@ callback(Robot* robot)
 	if(robot->get_line_status() == 0){
 
 		pair<int, int> position = make_pair(intx, inty);
-		//cout << "Position: " << intx << ", " << inty << endl;
 
 		if (intersections.find(position) == intersections.end())
 		{
 			// not found
+			if (position.first == 1 && position.second == -3)
+			{
+				// This is an error state
+				return;
+			}
 			cout << "New intersection: " << position.first << ", " << position.second << endl;
 			vector<int> dirs = {0, 0, 0, 0};
 			intersections.insert(make_pair(position, dirs));
@@ -108,54 +114,92 @@ callback(Robot* robot)
 			{
 				return;
 			}
+			else if (lastIntersection.first == intx && lastIntersection.second == inty)
+			{
+				return;
+			}
+
+			lastsound = sounds[lastIntersection];
+			sounds[position] = currentsound;
+
 			cout << "Updating past line" << endl;
 			cout << "Line state: " << robot->get_line_status() << " || Current sound: " << currentsound << " || Last sound: " << lastsound << " || Max sound: " << maxsound <<  " || Heading: " << pos_t << " || Position: (" << intx << ", " << inty << ")" << endl;
 			cout << "Position: " << intx << ", " << inty << endl;
 
 			vector<int> last = intersections[lastIntersection];
 			vector<int> curr = intersections[position];
-			int score;
+			cout << "Last before update: " << last[0] << last[1] << last[2] << last[3] << endl;
+			cout << "Curr before update: " << curr[0] << curr[1] << curr[2] << curr[3] << endl;
+
 			if (currentsound < lastsound)
 			{
 				// Case: we've gone in the wrong direction
-				score = -1;
+				intersections[lastIntersection][lastchoice] = -1;
 			}
 			else if (currentsound > lastsound)
 			{
 				// Case: we've gone in the right direction
-				score = 1;
+				intersections[lastIntersection][lastchoice] = 1;
 			}
 			else
 			{
 				// Case: error case, really, no change in sound
-				score = 0;
+				intersections[lastIntersection][lastchoice] = 0;
 			}
-			last[lastchoice] = score;
-			intersections[lastIntersection] = last;
 
 			// Choose how to update the current location
-			int currscore = score * -1;
 			if (lastchoice == 0)
 			{
-				// Case: update down from curr
-				curr[1] = currscore;
+				// Case: last is UP
+				if (currentsound > lastsound)
+				{
+					intersections[position][1] = -1;
+				}
+				else if (currentsound < lastsound)
+				{
+					intersections[position][0] = -1;
+					intersections[position][1] = 1;
+				}
 			}
 			else if (lastchoice == 1)
 			{
-				// Case: update up of curr
-				curr[0] = currscore;
+				// Case: last is DOWN
+				if (currentsound > lastsound)
+				{
+					intersections[position][0] = -1;
+				}
+				else if (currentsound < lastsound)
+				{
+					intersections[position][0] = 1;
+					intersections[position][1] = -1;
+				}
 			}
 			else if (lastchoice == 2)
 			{
-				// Case: update right of curr
-				curr[3] = currscore;
+				// Case: last is LEFT
+				if (currentsound > lastsound)
+				{
+					intersections[position][3] = -1;
+				}
+				else if (currentsound < lastsound)
+				{
+					intersections[position][2] = -1;
+					intersections[position][3] = 1;
+				}
 			}
 			else if (lastchoice == 3)
 			{
-				// Case: update left of curr
-				curr[2] = currscore;
+				// Case: last is RIGHT
+				if (currentsound > lastsound)
+				{
+					intersections[position][2] = -1;
+				}
+				else if (currentsound < lastsound)
+				{
+					intersections[position][3] = -1;
+					intersections[position][2] = 1;
+				}
 			}
-			intersections[position] = curr;
 
 			cout << "Last intersection: " << lastIntersection.first << ", " << lastIntersection.second << endl;
 			cout << "Lastchoice: " << lastchoice << endl;
@@ -210,20 +254,40 @@ callback(Robot* robot)
 				robot->set_vel(-1.5, 1.5);
 			}
 			lastIntersection = position;
-			lastsound = currentsound;
 			lastchoice = 1;
 		}
-		/*
-		else if ()
+		else if (left >= up && left >= down && left >= right)
 		{
 			// Case: left is the best guess direction
+			if (pos_t < - 1.6)
+			{
+				// Case: we're at the right heading
+				robot->set_vel(1.5, 1.5);
+			}
+			else
+			{
+				// Case: we're not at the right heading
+				robot->set_vel(-1.5, 1.5);
+			}
+			lastIntersection = position;
+			lastchoice = 2;
 		}
-		else if ()
+		else if (right >= up && right >= down && right >= left)
 		{
 			// Case: right is the best guess direction
+			if (pos_t > 1.6)
+			{
+				// Case: we're at the right heading
+				robot->set_vel(1.5, 1.5);
+			}
+			else
+			{
+				// Case: we're not at the right heading
+				robot->set_vel(-1.5, 1.5);
+			}
+			lastIntersection = position;
+			lastchoice = 2;
 		}
-		*/
-
 	}
 	else if (robot->get_line_status() == 1)
 	{
