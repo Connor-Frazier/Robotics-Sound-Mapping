@@ -56,22 +56,30 @@ callback(Robot* robot)
 	int intx = round(pos_x);
 	int inty = round(pos_y);
 	int currentsound = robot->get_noise_sensor();
-/*	mapviz(round(pos_x),round(pos_y),currentsound);
+	mapviz(round(pos_x),round(pos_y),currentsound);
+		
+	//Occupancy grid contain current sound heuristic.
 	occgrid.insert(make_pair(make_pair(intx,inty),currentsound));
-*/
 
-	su = su - store[ind];       // Remove the oldest entry from the sum
-  	val = currentsound;        // Read the next sensor value
-  	store[ind] = val;           // Add the newest reading to the window
-  	su = su + val;                 // Add the newest reading to the sum
-  	ind = (ind+1) % WINDOW_SIZE;   // Increment the index, and wrap to 0 if it exceeds the window size
+	// Sound Sensor Moving Average Logic
+	su = su - store[ind];      
+  	val = currentsound;      
+  	store[ind] = val;         
+  	su = su + val;                
+  	ind = (ind+1) % wind;   
 
-  	currentsound = su / WINDOW_SIZE;      // Divide the sum of the window by the window size for the result
+  	currentsound = su / wind;     
  	int linestatus = robot->get_line_status();
 
 	cout << "Line Status " << linestatus <<" Current Sound " << currentsound << " Max Sound " << maxsound<<   " Pos_t " << pos_t <<
 	" Last Dir " << lastdir << endl;
 
+	/*Movement Logic (Line Sensors):  
+	Line Status == 0, robot is in intersection.
+	Line Status == 1, robot is on line edge.
+	Line Status  == 2, robot is on line edge.
+	Line Statis ==3, robot is directly above line.*/
+	
 	if(linestatus==0){
 
     	if (currentsound >= maxsound) {
