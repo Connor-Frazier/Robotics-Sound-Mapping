@@ -168,7 +168,7 @@ main(int argc, char* argv[])
     int xsize = 1000;
     char c;
 
-    gfx_open(xsize,ysize,"Sound Localization");*
+    gfx_open(xsize,ysize,"Sound Localization");
 
     if(bname == "gz_brain") {
         std::cout << "making robot: Gazebo mode" << '\n';
